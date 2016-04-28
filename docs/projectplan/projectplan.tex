@@ -1,0 +1,97 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{amssymb, amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{url}
+
+
+\author{Manuel Haid (1131404) \\ Thomas Mauerhofer (1031957) \\ Matthias Wölbitsch (1130899) \\ \\ Group 001}
+\title{Project Plan for a Time Series Visualization Framework}
+\date{}
+
+
+\begin{document}
+
+
+\maketitle
+
+
+\section{Motivation}
+
+In today's society data plays a import role in many different ways.
+For instance, businesses are using large amount of data to predict consumer behavior to satisfy their demand.
+Often time plays a essential role in these data sets. 
+For example, the consumption of electricity does not only depend on the time of the day but also on the day of the week and other seasonal effects.
+Such data sets are usually referred to as time series (i.e. two- or higher-dimensional data with time as one dimension). 
+
+When dealing with time series usually one of the first steps in the analysis process is the visualization of the data.
+The graphical representation can already give some great insights in properties of the data.
+For example, a simple visual inspection can already show some patterns, trends or seasonal effects without the use of statistical methods. 
+These properties are important since they have to be considered in the modeling of the time series.
+The goal of our project is to create a web-based framework that allows the user to perform this initial visual inspection of the time series in a convenient but sophisticated way.
+
+
+\section{Project Description}
+
+The time series visualization framework mainly consists of of a front-end and a back-end part.
+This architectural design choice implies a clear separation of concerns. 
+The back-end will be implemented in Python and is used for the processing of the data while the HTML/JavaScript front-end is used to present different views to the user.
+
+One of the main responsibilities of the back-end application is the process of importing the data.
+Currently we plan to provide three different ways to load data from an external source:
+
+\begin{enumerate}
+ \item \textbf{File import}: The most common way is a simple import of the data from files on the local file system.
+ All supported import file formats are not specified yet, however, the usual formats such as \texttt{.csv} or \texttt{.tsv} should work with the application.
+ \item \textbf{External APIs}: This import method could be used to easily explore data sets which are available on data set hosting sites. 
+ For example, the well-known Time Series Data Library (TSDL) is hosted on \url{www.DataMarket.com} and could be accessed via an API. 
+ \item \textbf{Sockets}: This import method could be used to explore data which is collected in real-time (e.g. sensor data). 
+ However, further research is required to investigate the design of such interface for socket connections that provide data over time.
+\end{enumerate}
+
+After the time series data was imported it should be stored in a appropriate model. 
+For this task we'll use the data analysis library pandas since it provides convenient high-performance data structures to store, access, and manipulate the data.
+Other advantages of pandas are the support of operations on temporal data (e.g. slicing or filtering) and the support of other libraries (e.g. NumPy) for pandas data structures.
+
+Another important part of the back-end is the visualization engine. 
+Its main responsibility is the processing of the time series to create visualization primitives (i.e. it transforms the data into a representation that can later be rendered by the front-end).
+The visualization engine provides a RESTful API for its functionality, which is another part of the back-end.
+This allows the front-end to send simple HTTP requests to get visualizations of the time series.
+
+
+
+\section{Timetable}
+
+Table \ref{tab:timetable} shows some time estimates for the duration of different tasks from various areas of the project. 
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Task}} & \textbf{Duration [h]} \\ \hline
+\textbf{Research} &  \\ \hline
+  - foo sub tasks & 42 \\ \hline
+  - bar sub tasks & 42 \\ \hline
+\textbf{Other Task} &  \\ \hline
+  - foo sub tasks & 42 \\ \hline
+  - bar sub tasks & 42 \\ \hline
+\end{tabular}
+\caption{Estimation for various sub tasks of the project.}
+\label{tab:timetable}
+\end{table}
+
+
+\section{Responsibilities}
+
+\begin{description}
+ \item[Manuel Haid] foo
+ \item[Thomas Mauerhofer] bar
+ \item[Matthias Wölbitsch] baz
+\end{description}
+
+
+\end{document}
