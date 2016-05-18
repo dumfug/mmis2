@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<script type="text/javascript">
+  $(function() {
+    var get_data = function(e) {
+      $.getJSON($SCRIPT_ROOT + '/get_dummy_data', function(data) {
+          var time_series = MG.convert.date(data, 'date');
+          MG.data_graphic({
+              title: 'example data',
+              data: time_series,
+              width: 800,
+              height: 400,
+              right: 40,
+              target: $('#graph-canvas')[0],
+              x_accessor: 'date',
+              y_accessor: 'value'
+          });
+      });
+    };
+
+    $('a#btn-get-data').bind('click', get_data);
+  });
+</script>
+
+<div id='graph-canvas'></div>
+<a href=# id='btn-get-data'>get data from server</a>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+    <head>
+        <title>timeline___</title>
+
+        <link rel="stylesheet" href="{{url_for('static', filename='metricsgraphics.css') }}">
+
+        <script type=text/javascript
+          src="{{url_for('static', filename='jquery.min.js') }}">
+        </script>
+
+        <script type=text/javascript
+          src="{{url_for('static', filename='d3.js') }}">
+        </script>
+
+        <script type=text/javascript
+          src="{{url_for('static', filename='metricsgraphics.js') }}">
+        </script>
+
+        <script type="text/javascript">
+          var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        </script>
+    </head>
+
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>
