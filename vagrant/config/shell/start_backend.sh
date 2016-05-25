@@ -1,8 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
-echo "Start Server on Port:5000"
+cd /timeline/git
 
-cd /git_home
-sudo pip3 install -r requirements.txt
-python3 timeline/__init__.py > /dev/null 2>&1 &
+echo "create virtual environment"
+virtualenv -p /usr/bin/python3.5 ~/venv
 
+echo "activate virtual environment"
+source ~/venv/bin/activate
+
+echo "install requirements using pip"
+pip install -r requirements.txt
+
+echo "start timeline server on port 5000"
+python3.5 timeline/__init__.py > /dev/null 2>&1 &

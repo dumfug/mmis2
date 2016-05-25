@@ -7,13 +7,13 @@
 
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  ## 32 bit 
+  ## 32 bit
   #config.vm.box = "ubuntu/trusty32"
   #config.vm.provider :virtualbox do |vb|
   #  vb.customize [ "modifyvm", :id, "--hwvirtex", "off"]
   #end
   ##
-  ## 64 bit 
+  ## 64 bit
   config.vm.box = "ubuntu/trusty64"
   ##
 
@@ -24,10 +24,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   ## shared folder (default is mounted the folder of this Vagrantfile on the host under /vagrant on the guest)
-  config.vm.synced_folder "../", "/git_home/"
+  config.vm.synced_folder "../", "/timeline/git/"
 
   ## forwarded ports
-  config.vm.network "forwarded_port", guest: 5000, host: 5000 
+  config.vm.network "forwarded_port", guest: 5000, host: 5000
 
   ## hostname
   config.vm.hostname = "dev.local"
@@ -35,7 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ## assign IP address
   #config.vm.network "private_network", ip: "192.168.50.4"
 
-  ## NOTE: 
+  ## NOTE:
   ## to activate DNS, add the following entry to your local hosts file (http://en.wikipedia.org/wiki/Hosts_%28file%29)
   ## (FORMAT: <IPADRESS> <HOSTNAME>)
   ##

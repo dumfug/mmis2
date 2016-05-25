@@ -16,7 +16,10 @@ echo ""
 ## PACKAGES
 
 DEPENDENCIES_BASE="curl zip bzip2 vim lynx ntp git subversion git-svn"
-DEPENDENCIES_PYTHON="python python3-pip python-virtualenv libapache2-mod-wsgi"
+DEPENDENCIES_PYTHON="python python3.5 python-dev python3.5-dev python-virtualenv"
+
+echo "add repos..."
+sudo add-apt-repository ppa:fkrull/deadsnakes
 
 echo "update.."
 sudo apt-get update
@@ -27,5 +30,3 @@ apt-get install -y $DEPENDENCIES_PYTHON
 
 echo "various settings..."
 usermod -a -G adm vagrant
-
-
