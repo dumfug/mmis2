@@ -3,23 +3,48 @@
     <head>
         <title>timeline___</title>
 
-        <link rel="stylesheet" href="{{url_for('static', filename='metricsgraphics.css') }}">
+	<!-- root -->
+        <script type="text/javascript"> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 
-        <script type=text/javascript
-          src="{{url_for('static', filename='jquery.min.js') }}">
-        </script>
+	<!-- jquery -->
+        <script type=text/javascript src="{{url_for('static', filename='libs/jquery.min.js') }}"></script>
 
-        <script type=text/javascript
-          src="{{url_for('static', filename='d3.js') }}">
-        </script>
+	<!-- Bootstrap Core CSS -->	
+	<link rel="stylesheet" href="{{url_for('static', filename='libs/bootstrap/dist/css/bootstrap.min.css') }}">
+	<script type=text/javascript src="{{url_for('static', filename='libs/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
-        <script type=text/javascript
-          src="{{url_for('static', filename='metricsgraphics.js') }}">
-        </script>
+    	<!-- MetisMenu CSS -->
+	<link rel="stylesheet" href="{{url_for('static', filename='libs/metisMenu/dist/metisMenu.min.css') }}">
+	<script type=text/javascript src="{{url_for('static', filename='libs/metisMenu/dist/metisMenu.min.js') }}"></script>
 
-        <script type="text/javascript">
-          var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-        </script>
+	<!-- raphael -->
+	<script type=text/javascript src="{{url_for('static', filename='libs/raphael/raphael-min.js') }}"></script>
+	
+	<!-- Morris Charts CSS -->
+	<link rel="stylesheet" href="{{url_for('static', filename='libs/morrisjs/morris.css') }}">
+	<script type=text/javascript src="{{url_for('static', filename='libs/morrisjs/morris.min.js') }}"></script>
+	<script type=text/javascript src="{{url_for('static', filename='libs/morrisjs/morris-data.js') }}"></script>
+
+    	<!-- Custom Fonts -->
+	<link rel="stylesheet" href="{{url_for('static', filename='libs/font-awesome/css/font-awesome.min.css') }}">
+
+	<!-- d3 -->
+        <script type=text/javascript src="{{url_for('static', filename='libs/d3/d3.js') }}"></script>
+
+	<!-- metricsgraphics -->
+        <link rel="stylesheet" href="{{url_for('static', filename='libs/metricsgraphics/metricsgraphics.css') }}">
+	<script type=text/javascript src="{{url_for('static', filename='libs/metricsgraphics/metricsgraphics.js') }}"></script>
+
+	<!-- Template Style files -->
+	<link rel="stylesheet" href="{{url_for('static', filename='libs/sb-admin-2/sb-admin-2.css') }}">
+	<script type=text/javascript src="{{url_for('static', filename='libs/sb-admin-2/sb-admin-2.js') }}"></script>
+
+	<!-- Timeline CSS -->
+	<link rel="stylesheet" href="{{url_for('static', filename='css/timeline.css') }}">
+
+	<!--Styles CSS -->
+	<link rel="stylesheet" href="{{url_for('static', filename='css/styles.css') }}">
+
     </head>
 
     <body>
