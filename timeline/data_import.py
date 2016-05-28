@@ -14,3 +14,6 @@ def get_dummy_data_set():
         'data_col': 'Internet traffic data (in GB)',
         'data': data
     }
+
+def get_data_set(ts_id):
+    return get_dummy_data_set()

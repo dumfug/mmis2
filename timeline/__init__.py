@@ -1,25 +1,35 @@
 import json
-from flask import Flask, render_template, request, Response
-from visualizations import time_series_plot
-from data_import import get_dummy_data_set
+from flask import Flask, render_template, request, Response, abort
+from visualizations import time_series_plot, add_rolling_mean, add_rolling_std
+from data_import import get_data_set
 
 
 app = Flask(__name__)
 
-@app.route('/get_dummy_data')
-def dummy_data():
-    data = [{"date":"2014-01-01", "value":190000000},
-            {"date":"2014-01-02", "value":190379978},
-            {"date":"2014-01-03", "value":90493749},
-            {"date":"2014-01-04", "value":190785250}]
+@app.route('/time_plot/<int:data_set_id>')
+def time_plot(data_set_id):
+    data_set = get_data_set(data_set_id)
+    viz = time_series_plot(data_set, area=False, right=40)
 
-    return Response(json.dumps(data), mimetype='application/json')
+    if request.args.get('rolling_mean_window', None):
+        try:
+            window = int(request.args.get('rolling_mean_window'))
+            add_rolling_mean(data_set, data_set['data_col'], viz, window)
+        except ValueError:
+            abort(400)
 
-@app.route('/time_plot')
-def time_plot():
-    ts = get_dummy_data_set()
-    viz = time_series_plot(ts)
+    if request.args.get('rolling_std_window', None):
+        try:
+            window = int(request.args.get('rolling_std_window'))
+            add_rolling_std(data_set, data_set['data_col'], viz, window)
+        except ValueError:
+            abort(400)
+
     return Response(json.dumps(viz), mimetype='application/json')
+
+@app.route('/test')
+def test():
+    return render_template('test.html')
 
 @app.route('/')
 def index():

@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<h1>simple time plot test</h1>
+<div id='time-plot-canvas'></div>
+<a href=# id='btn-time-plot'>create plot</a>
+
+<script type="text/javascript">
+    $('a#btn-time-plot').bind('click', time_plot);
+</script>
+
+{% endblock %}
