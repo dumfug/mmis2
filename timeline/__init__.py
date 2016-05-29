@@ -1,9 +1,10 @@
 import json
 from datetime import datetime
 from flask import Flask, render_template, request, Response, abort
-from visualizations import time_series_plot, add_rolling_mean, add_rolling_std
 from data_import import get_data_set
-
+from visualizations import (
+    time_series_plot, add_rolling_mean, add_rolling_std, auto_correlation_plot
+)
 
 app = Flask(__name__)
 
@@ -35,6 +36,19 @@ def time_plot(data_set_id):
         except ValueError:
             abort(400)
 
+    return Response(json.dumps(viz), mimetype='application/json')
+
+@app.route('/acf_plot/<int:data_set_id>')
+def acf_plot(data_set_id):
+    data_set = get_data_set(data_set_id)
+
+    try:
+        max_lag = int(request.args.get('max_lag', ''))
+        if max_lag <= 0: raise ValueError
+    except ValueError:
+        abort(400)
+
+    viz = auto_correlation_plot(data_set, max_lag, left=100, area=False)
     return Response(json.dumps(viz), mimetype='application/json')
 
 @app.route('/test')

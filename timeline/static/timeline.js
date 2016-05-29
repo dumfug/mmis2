@@ -4,7 +4,7 @@ var time_plot = function(event) {
         'end_date': DateToUnixTimeStamp(new Date('2005/06/27 23:59:59')),
         'rolling_mean_window': 600,
         'rolling_std_window': 600
-    }
+    };
 
     $.getJSON($SCRIPT_ROOT + '/time_plot/0', get_params, function(viz) {
         // convert unix timestamp into JS date object
@@ -18,6 +18,22 @@ var time_plot = function(event) {
         viz.width = 800;
         viz.height = 400;
         viz.target = $('#time-plot-canvas')[0];
+
+        MG.data_graphic(viz);
+    });
+};
+
+var acf_plot = function(event) {
+    var get_params = {
+        'max_lag': 300
+    };
+
+    $.getJSON($SCRIPT_ROOT + '/acf_plot/0', get_params, function(viz) {
+        viz.width = 800;
+        viz.height = 400;
+        viz.target = $('#acf-plot-canvas')[0];
+        viz.legend_target = '.legend';
+        viz.y_mouseover = '+.2r';
 
         MG.data_graphic(viz);
     });
