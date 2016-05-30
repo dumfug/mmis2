@@ -39,6 +39,30 @@ var acf_plot = function(event) {
     });
 };
 
+var forcasting_eval_plot = function(event) {
+    $.getJSON($SCRIPT_ROOT + '/forecasting_plot/0', function(viz) {
+        // convert unix timestamp into JS date object
+        for (var i = 0; i < viz.data.length; i++) {
+            viz.data[i].map(function(d) {
+                d['date'] = UnixTimeStampToDate(d['date']);
+                return d;
+            });
+        }
+
+        viz.markers.map(function(d) {
+            d['date'] = UnixTimeStampToDate(d['date']);
+            return d;
+        });
+
+        viz.width = 800;
+        viz.height = 400;
+        viz.target = $('#forecasting-plot-canvas')[0];
+        viz.legend_target = '.legend';
+
+        MG.data_graphic(viz);
+    });
+}
+
 function DateToUnixTimeStamp(date) {
     return Math.round(date.getTime() / 1000);
 }

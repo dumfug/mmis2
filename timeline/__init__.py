@@ -1,9 +1,10 @@
 import json
 from datetime import datetime
 from flask import Flask, render_template, request, Response, abort
-from data_import import get_data_set
+from data_import import get_data_set, get_model
 from visualizations import (
-    time_series_plot, add_rolling_mean, add_rolling_std, auto_correlation_plot
+    time_series_plot, add_rolling_mean, add_rolling_std, auto_correlation_plot,
+    forecasting_eval_plot
 )
 
 app = Flask(__name__)
@@ -25,14 +26,14 @@ def time_plot(data_set_id):
     if request.args.get('rolling_mean_window', None):
         try:
             window = int(request.args.get('rolling_mean_window'))
-            add_rolling_mean(data_set, data_set['data_col'], viz, window)
+            add_rolling_mean(data_set, viz=viz, window=window)
         except ValueError:
             abort(400)
 
     if request.args.get('rolling_std_window', None):
         try:
             window = int(request.args.get('rolling_std_window'))
-            add_rolling_std(data_set, data_set['data_col'], viz, window)
+            add_rolling_std(data_set, viz=viz, window=window)
         except ValueError:
             abort(400)
 
@@ -49,6 +50,12 @@ def acf_plot(data_set_id):
         abort(400)
 
     viz = auto_correlation_plot(data_set, max_lag, left=100, area=False)
+    return Response(json.dumps(viz), mimetype='application/json')
+
+@app.route('/forecasting_plot/<int:model_id>')
+def forcasting_plot(model_id):
+    model = get_model(model_id)
+    viz = forecasting_eval_plot(model, area=False)
     return Response(json.dumps(viz), mimetype='application/json')
 
 @app.route('/test')
