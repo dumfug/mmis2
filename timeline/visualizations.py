@@ -33,14 +33,14 @@ def auto_correlation_plot(data_set, max_lag, **kwargs):
             'autocorrelation': time_series.autocorr(lag),
             'plus95conf': z95 / np.sqrt(len(time_series)),
             'minus95conf': -z95 / np.sqrt(len(time_series)),
-            'zero': 0
         })
 
-    return {'title': 'ACF', 'data': data, 'x_accessor': 'lag', 'y_accessor':
-            ['autocorrelation', 'plus95conf', 'minus95conf', 'zero'], 'legend':
-            ['autocorrelation', '+95% confidence', '-95% confidence',
-            'baseline'], 'colors': ['#FF0000', '#808080', '#808080', '#000000'],
-            'x_label': 'Lag', 'y_label': 'Autocorrelation', **kwargs}
+    return {'title': 'ACF', 'data': data, 'x_accessor': 'lag',
+            'y_accessor': ['autocorrelation', 'plus95conf', 'minus95conf'],
+            'legend': ['autocorrelation', '+95% confidence', '-95% confidence'],
+            'colors': ['#FF0000', '#333333', '#333333'], 'x_label': 'Lag',
+            'y_label': 'Autocorrelation', 'baselines': [{'value': 0.0}],
+            **kwargs}
 
 def _build_data_object(data_set, collum):
     data = []
