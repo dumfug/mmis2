@@ -38,7 +38,7 @@ def auto_correlation_plot(data_set, max_lag, **kwargs):
     return {'title': 'ACF', 'data': data, 'x_accessor': 'lag',
             'y_accessor': ['autocorrelation', 'plus95conf', 'minus95conf'],
             'legend': ['autocorrelation', '+95% confidence', '-95% confidence'],
-            'colors': ['#FF0000', '#333333', '#333333'], 'x_label': 'Lag',
+            'colors': ['#DB4437', '#5c5c5c', '#5c5c5c'], 'x_label': 'Lag',
             'y_label': 'Autocorrelation', 'baselines': [{'value': 0.0}],
             **kwargs}
 
@@ -56,14 +56,14 @@ def forecasting_eval_plot(model, **kwargs):
         })
 
     viz = {'title': model['name'], 'data': [training_data, forecast_data],
-           'colors': ['#3C6662', '#D96C69'],
+           'colors': ['#4040E8', '#DB4437'],
            'legend': ['training data', 'forecast'],
            'show_confidence_band': ['lower', 'upper']}
 
     if 'true_forecast_data' in model:
         real_data = _build_data_object(model['true_forecast_data'])
         viz['data'].append(real_data)
-        viz['colors'].append('#6CBC67')
+        viz['colors'].append('#05B378')
         viz['legend'].append('true forecast')
 
     if 'validation_split' in model:
