@@ -9,8 +9,10 @@ from visualizations import (
 
 app = Flask(__name__)
 
-@app.route('/time_plot/<int:data_set_id>')
+@app.route('/time_plot', defaults = {'data_set_id': 'random'})
+@app.route('/time_plot/<data_set_id>')
 def time_plot(data_set_id):
+    # TODO: error handling for invalid data set id
     data_set = get_data_set(data_set_id)
 
     if request.args.get('start_date', None):
@@ -21,7 +23,7 @@ def time_plot(data_set_id):
         end = datetime.fromtimestamp(int(request.args.get('end_date')))
         data_set['data'] = data_set['data'][:end]
 
-    viz = time_series_plot(data_set, area=False, right=40)
+    viz = time_series_plot(data_set, area=False)
 
     if request.args.get('rolling_mean_window', None):
         try:
@@ -41,11 +43,12 @@ def time_plot(data_set_id):
 
 @app.route('/time_plots')
 def time_plots():
-    data_sets = [get_data_set(data_set_id) for _, data_set_id in request.args.items()]
-    viz = time_series_plot(data_sets, area=False, right=80)
+    # TODO: error handling for invalid data set ids
+    data_sets = [get_data_set(id) for _, id in request.args.items()]
+    viz = time_series_plot(data_sets, area=False)
     return Response(json.dumps(viz), mimetype='application/json')
 
-@app.route('/acf_plot/<int:data_set_id>')
+@app.route('/acf_plot/<data_set_id>')
 def acf_plot(data_set_id):
     data_set = get_data_set(data_set_id)
 
@@ -56,6 +59,10 @@ def acf_plot(data_set_id):
         abort(400)
 
     viz = auto_correlation_plot(data_set, max_lag, left=100, area=False)
+
+    if request.args.get('scale', '').lower() in ['true', 't', 'yes', 'y', '1']:
+        viz.update({'min_y': -1, 'max_y': +1})
+
     return Response(json.dumps(viz), mimetype='application/json')
 
 @app.route('/forecasting_plot/<int:forecast_id>')

@@ -34,25 +34,28 @@ def add_rolling_std(data_set, viz, window):
     viz['legend'].append('std')
 
 def auto_correlation_plot(data_set, max_lag, **kwargs):
-    z95 = 1.959963984540054 # z-score for 0.95 of N(0,1)
+    z95 = 1.9599639845400540 # z-score for 0.95 of N(0,1)
+    z99 = 2.5758293035489004 # z-score for 0.99 of N(0,1)
     nsamples = len(data_set['data'])
 
     data = []
-    for lag in range (max_lag):
+    for lag in range(1, max_lag):
         data.append({
             'lag': lag,
             'autocorrelation': data_set['data'].autocorr(lag),
             'plus95conf': z95 / np.sqrt(nsamples),
+            'plus99conf': z99 / np.sqrt(nsamples),
             'minus95conf': -z95 / np.sqrt(nsamples),
+            'minus99conf': -z99 / np.sqrt(nsamples),
         })
 
     return {'title': 'ACF', 'data': data, 'x_accessor': 'lag',
-            'y_accessor': ['autocorrelation', 'plus95conf', 'minus95conf'],
-            'legend': ['autocorrelation', '+95% confidence', '-95% confidence'],
-            'colors': ['#DB4437', '#5c5c5c', '#5c5c5c'], 'x_label': 'Lag',
-            'y_label': 'Autocorrelation', 'baselines': [{'value': 0.0}],
-            **kwargs}
-
+            'y_accessor': ['autocorrelation', 'plus95conf', 'plus99conf',
+            'minus95conf', 'minus99conf'], 'legend': ['autocorrelation',
+            '+95% confidence', '+99% confidence', '-95% confidence',
+            '-99% confidence'], 'colors': ['#DB4437', '#5C5C5C', '#3A3A3A',
+            '#5C5C5C', '#3A3A3A'], 'x_label': 'Lag', 'y_label':
+            'Autocorrelation', 'baselines': [{'value': 0.0}], **kwargs}
 
 def forecasting_eval_plot(model, **kwargs):
     training_data = _build_data_object(model['training_data'])

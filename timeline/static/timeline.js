@@ -12,6 +12,7 @@ var time_plot = function(event) {
         viz.width = 800;
         viz.height = 400;
         viz.target = $('#time-plot-canvas')[0];
+        viz.right = 40;
 
         MG.data_graphic(viz);
     });
@@ -29,6 +30,7 @@ var multiple_time_plots = function(event) {
 
         viz.width = 800;
         viz.height = 400;
+        viz.right = 80;
         viz.target = $('#multiple-time-plots-canvas')[0];
 
         MG.data_graphic(viz);
@@ -37,7 +39,8 @@ var multiple_time_plots = function(event) {
 
 var acf_plot = function(event) {
     var get_params = {
-        'max_lag': 300
+        'max_lag': 300,
+        'scale': true
     };
 
     $.getJSON($SCRIPT_ROOT + '/acf_plot/0', get_params, function(viz) {
