@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 from flask import Flask, render_template, request, Response, abort
-from data_import import get_data_set, get_model
+from data_import import get_data_set, get_forecast
 from visualizations import (
     time_series_plot, add_rolling_mean, add_rolling_std, auto_correlation_plot,
     forecasting_eval_plot
@@ -39,6 +39,12 @@ def time_plot(data_set_id):
 
     return Response(json.dumps(viz), mimetype='application/json')
 
+@app.route('/time_plots')
+def time_plots():
+    data_sets = [get_data_set(data_set_id) for _, data_set_id in request.args.items()]
+    viz = time_series_plot(data_sets, area=False, right=80)
+    return Response(json.dumps(viz), mimetype='application/json')
+
 @app.route('/acf_plot/<int:data_set_id>')
 def acf_plot(data_set_id):
     data_set = get_data_set(data_set_id)
@@ -52,10 +58,10 @@ def acf_plot(data_set_id):
     viz = auto_correlation_plot(data_set, max_lag, left=100, area=False)
     return Response(json.dumps(viz), mimetype='application/json')
 
-@app.route('/forecasting_plot/<int:model_id>')
-def forcasting_plot(model_id):
-    model = get_model(model_id)
-    viz = forecasting_eval_plot(model, area=False)
+@app.route('/forecasting_plot/<int:forecast_id>')
+def forcasting_plot(forecast_id):
+    forecast = get_forecast(forecast_id)
+    viz = forecasting_eval_plot(forecast, area=False)
     return Response(json.dumps(viz), mimetype='application/json')
 
 @app.route('/test')

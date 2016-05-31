@@ -2,7 +2,23 @@
 # encoding: utf-8
 
 import pandas as pd
+import numpy as np
 
+
+def generate_random_data_set(nsamples=1000):
+    generate_random_data_set.counter += 1
+    rng = pd.date_range('2010-01-01', periods=nsamples, freq='H')
+    mu = np.random.randint(0, 11)
+    sigma = np.random.ranf() * 2
+    ts = pd.Series(sigma * np.random.randn(len(rng)) + mu, index=rng)
+
+    return {
+        'name': 'random time series ' + str(generate_random_data_set.counter),
+        'legend': 'random ' + str(generate_random_data_set.counter),
+        'data': ts
+    }
+
+generate_random_data_set.counter = 0
 
 def get_dummy_data_set():
     data = pd.read_csv('../datasets/internet-traffic-data.csv', parse_dates='Time', index_col='Time')
@@ -11,10 +27,11 @@ def get_dummy_data_set():
                          'Internet traffic data (in GB)'}, inplace=True)
     return {
         'name': 'internet traffic data',
+        'legend': 'traffic',
         'data': data['Internet traffic data (in GB)']
     }
 
-def get_dummy_model():
+def get_dummy_forecast():
     data = pd.read_csv('../datasets/internet-traffic-data.csv', parse_dates='Time', index_col='Time')
     data = data / 8 / 2**30 # convert bits into GB
     data.rename(columns={'Internet traffic data (in bits)':
@@ -39,7 +56,9 @@ def get_dummy_model():
     }
 
 def get_data_set(data_set_id):
+    if data_set_id is None or data_set_id == 'random':
+        return generate_random_data_set()
     return get_dummy_data_set()
 
-def get_model(model_id):
-    return get_dummy_model()
+def get_forecast(forecast_id):
+    return get_dummy_forecast()

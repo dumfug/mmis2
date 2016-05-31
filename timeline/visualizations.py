@@ -4,10 +4,21 @@
 import numpy as np
 
 
-def time_series_plot(data_set, **kwargs):
-    data = _build_data_object(data_set['data'])
-    return {'title': data_set['name'], 'x_accessor': 'date',
-            'y_accessor': 'value', 'data': [data], 'legend': ['data'],
+def time_series_plot(data_sets, **kwargs):
+    data = []
+    legend = []
+
+    if type(data_sets) == dict:
+        data_sets = [data_sets]
+
+    for data_set in data_sets:
+        data.append(_build_data_object(data_set['data']))
+        legend.append(data_set['legend'])
+
+    title = data_sets[0]['name'] if len(data_sets) == 1 else ''
+
+    return {'title': title, 'x_accessor': 'date',
+            'y_accessor': 'value', 'data': data, 'legend': legend,
             **kwargs}
 
 def add_rolling_mean(data_set, viz, window):

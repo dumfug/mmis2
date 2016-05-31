@@ -7,17 +7,29 @@ var time_plot = function(event) {
     };
 
     $.getJSON($SCRIPT_ROOT + '/time_plot/0', get_params, function(viz) {
-        // convert unix timestamp into JS date object
-        for (var i = 0; i < viz.data.length; i++) {
-            viz.data[i].map(function(d) {
-                d['date'] = UnixTimeStampToDate(d['date']);
-                return d;
-            });
-        }
+        convertDataArray(viz);
 
         viz.width = 800;
         viz.height = 400;
         viz.target = $('#time-plot-canvas')[0];
+
+        MG.data_graphic(viz);
+    });
+};
+
+var multiple_time_plots = function(event) {
+    var get_params = {
+        'ts1': 'random',
+        'ts2': 'random',
+        'ts3': 'random'
+    };
+
+    $.getJSON($SCRIPT_ROOT + '/time_plots', get_params, function(viz) {
+        convertDataArray(viz);
+
+        viz.width = 800;
+        viz.height = 400;
+        viz.target = $('#multiple-time-plots-canvas')[0];
 
         MG.data_graphic(viz);
     });
@@ -41,13 +53,7 @@ var acf_plot = function(event) {
 
 var forcasting_eval_plot = function(event) {
     $.getJSON($SCRIPT_ROOT + '/forecasting_plot/0', function(viz) {
-        // convert unix timestamp into JS date object
-        for (var i = 0; i < viz.data.length; i++) {
-            viz.data[i].map(function(d) {
-                d['date'] = UnixTimeStampToDate(d['date']);
-                return d;
-            });
-        }
+        convertDataArray(viz);
 
         viz.markers.map(function(d) {
             d['date'] = UnixTimeStampToDate(d['date']);
@@ -61,6 +67,15 @@ var forcasting_eval_plot = function(event) {
 
         MG.data_graphic(viz);
     });
+}
+
+function convertDataArray(viz) {
+    for (var i = 0; i < viz.data.length; i++) {
+        viz.data[i].map(function(d) {
+            d['date'] = UnixTimeStampToDate(d['date']);
+            return d;
+        });
+    }
 }
 
 function DateToUnixTimeStamp(date) {
