@@ -37,6 +37,40 @@ var multiple_time_plots = function(event) {
     });
 };
 
+var live_plot = function(event) {
+        var route = $SCRIPT_ROOT + '/live_plot/random_live';
+        $.getJSON(route, function(viz) {
+        convertDataArray(viz);
+
+        viz.width = 800;
+        viz.height = 400;
+        viz.right = 80;
+        viz.target = $('#live-plot-canvas')[0];
+        viz.legend_target = '.legend';
+        viz.transition_on_update = false;
+
+        MG.data_graphic(viz);
+        activateLiveUpdate(viz, 1000);
+    });
+
+    function activateLiveUpdate(viz, interval) {
+        setInterval(function() {
+            var data = viz['data'][0];
+            var last_date = data[data.length-1]['date'];
+            var get_params = {'last_received': DateToUnixTimeStamp(last_date)};
+
+            $.getJSON(route, get_params, function(new_data) {
+                new_data.map(function(d) {
+                    d['date'] = UnixTimeStampToDate(d['date']);
+                    return d;
+                });
+                viz['data'][0].push.apply(viz['data'][0], new_data)
+                MG.data_graphic(viz);
+            });
+        }, interval);
+    }
+};
+
 var acf_plot = function(event) {
     var get_params = {
         'max_lag': 300,

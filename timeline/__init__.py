@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, Response, abort
 from data_import import get_data_set, get_forecast
 from visualizations import (
     time_series_plot, add_rolling_mean, add_rolling_std, auto_correlation_plot,
-    forecasting_eval_plot
+    forecasting_eval_plot, build_data_object
 )
 
 app = Flask(__name__)
@@ -46,6 +46,21 @@ def time_plots():
     # TODO: error handling for invalid data set ids
     data_sets = [get_data_set(id) for _, id in request.args.items()]
     viz = time_series_plot(data_sets, area=False)
+    return Response(json.dumps(viz), mimetype='application/json')
+
+@app.route('/live_plot', defaults = {'data_set_id': 'random'})
+@app.route('/live_plot/<data_set_id>')
+def live_plot(data_set_id):
+    data_set = get_data_set(data_set_id)
+
+    if request.args.get('last_received', None):
+        last_timestamp = int(request.args.get('last_received'))
+        # add 1 second offset to exclude the data from the last time stamp
+        start_date = datetime.fromtimestamp(last_timestamp + 1)
+        new_data = build_data_object(data_set['data'][start_date:])
+        return Response(json.dumps(new_data), mimetype='application/json')
+
+    viz = time_series_plot(data_set, area=False)
     return Response(json.dumps(viz), mimetype='application/json')
 
 @app.route('/acf_plot/<data_set_id>')

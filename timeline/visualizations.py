@@ -12,7 +12,7 @@ def time_series_plot(data_sets, **kwargs):
         data_sets = [data_sets]
 
     for data_set in data_sets:
-        data.append(_build_data_object(data_set['data']))
+        data.append(build_data_object(data_set['data']))
         legend.append(data_set['legend'])
 
     title = data_sets[0]['name'] if len(data_sets) == 1 else ''
@@ -23,13 +23,13 @@ def time_series_plot(data_sets, **kwargs):
 
 def add_rolling_mean(data_set, viz, window):
     rolling_mean_ts = data_set['data'].rolling(window=window).mean().dropna()
-    data = _build_data_object(rolling_mean_ts)
+    data = build_data_object(rolling_mean_ts)
     viz['data'].append(data)
     viz['legend'].append('mean')
 
 def add_rolling_std(data_set, viz, window):
     rolling_std_ts = data_set['data'].rolling(window=window).std().dropna()
-    data = _build_data_object(rolling_std_ts)
+    data = build_data_object(rolling_std_ts)
     viz['data'].append(data)
     viz['legend'].append('std')
 
@@ -58,7 +58,7 @@ def auto_correlation_plot(data_set, max_lag, **kwargs):
             'Autocorrelation', 'baselines': [{'value': 0.0}], **kwargs}
 
 def forecasting_eval_plot(model, **kwargs):
-    training_data = _build_data_object(model['training_data'])
+    training_data = build_data_object(model['training_data'])
 
     forecast_data = []
     for index, row in model['forecast_data'].iterrows():
@@ -75,7 +75,7 @@ def forecasting_eval_plot(model, **kwargs):
            'show_confidence_band': ['lower', 'upper']}
 
     if 'true_forecast_data' in model:
-        real_data = _build_data_object(model['true_forecast_data'])
+        real_data = build_data_object(model['true_forecast_data'])
         viz['data'].append(real_data)
         viz['colors'].append('#05B378')
         viz['legend'].append('true forecast')
@@ -86,7 +86,7 @@ def forecasting_eval_plot(model, **kwargs):
 
     return {**viz, **kwargs}
 
-def _build_data_object(time_series):
+def build_data_object(time_series):
     data = []
     for index, value in time_series.iteritems():
         data.append({
