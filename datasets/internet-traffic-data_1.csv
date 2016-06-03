@@ -1,7 +1,7 @@
 "Time",""
-#name:test1
-#description:blah blih blug
-#isForecast:no forecast
+#name:test2
+#description:heine wolfgang
+#isForecast:forecast
 "2005-06-07 07:00:00",3562279127
 "2005-06-07 07:05:00",3710215571
 "2005-06-07 07:10:00",3877469703
