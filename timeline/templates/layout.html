@@ -4,26 +4,33 @@
         <title>timeline___</title>
 
 	<!-- root -->
-        <script type="text/javascript"> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+  <script type="text/javascript"> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 
 	<!-- jquery -->
-        <script type=text/javascript src="{{url_for('static', filename='libs/jquery.min.js') }}"></script>
+  <script type=text/javascript src="{{url_for('static', filename='libs/jquery.min.js') }}"></script>
+
+  <!-- moment -->
+  <script type="text/javascript" src="{{url_for('static', filename='libs/moment.min.js') }}"></script>
 
 	<!-- Bootstrap Core CSS -->
 	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">
 	<script type=text/javascript src="{{url_for('static', filename='libs/bootstrap.min.js') }}"></script>
 
+  <!-- Bootstrap Date Time picker -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-datetimepicker.min.css') }}">
+  <script type="text/javascript" src="{{url_for('static', filename='libs/bootstrap-datetimepicker.min.js') }}"></script>
+
 	<!-- d3 -->
-        <script type=text/javascript src="{{url_for('static', filename='libs/d3.js') }}"></script>
+  <script type=text/javascript src="{{url_for('static', filename='libs/d3.js') }}"></script>
 
 	<!-- metricsgraphics -->
-        <link rel="stylesheet" href="{{url_for('static', filename='css/metricsgraphics.css') }}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/metricsgraphics.css') }}">
 	<script type=text/javascript src="{{url_for('static', filename='libs/metricsgraphics.js') }}"></script>
 
 	<!--Styles CSS -->
 	<link rel="stylesheet" href="{{url_for('static', filename='css/timeline.css') }}">
 
-        <script type=text/javascript src="{{url_for('static', filename='js/timeline.js') }}"></script>
+  <script type=text/javascript src="{{url_for('static', filename='js/timeline.js') }}"></script>
     </head>
 
     <body>
