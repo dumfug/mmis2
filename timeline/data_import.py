@@ -28,8 +28,10 @@ class LiveRandomData(object):
                 break
 
         return {
-            'name': 'live random time series',
+            'id': 0,
+            'name': 'Live Random Time Series',
             'legend': 'live data',
+            'description': 'Random data which is generated on the fly.',
             'data': self.ts
         }
 
@@ -41,7 +43,7 @@ class LiveRandomData(object):
             self.queue.put((datetime.datetime.now(), data_point))
             time.sleep(1)
 
-live_data = LiveRandomData()
+live_random_data = LiveRandomData()
 
 class csvData:
 
@@ -110,8 +112,10 @@ def generate_random_data_set(nsamples=1000):
     ts = pd.Series(sigma * np.random.randn(len(rng)) + mu, index=rng)
 
     return {
-        'name': 'random time series ' + str(generate_random_data_set.counter),
+        'id': 'random' + str(generate_random_data_set.counter),
+        'name': 'Random Time Series Data Set ' + str(generate_random_data_set.counter),
         'legend': 'random ' + str(generate_random_data_set.counter),
+        'description': 'Random data with ... samples, drawn from a normal distribution with mu={} and std={:.2f}'.format(mu, sigma),
         'data': ts
     }
 
@@ -123,8 +127,10 @@ def get_dummy_data_set():
     data.rename(columns={'Internet traffic data (in bits)':
                          'Internet traffic data (in GB)'}, inplace=True)
     return {
-        'name': 'internet traffic data',
+        'id': 0,
+        'name': 'Internet Traffic Data Set',
         'legend': 'traffic',
+        'description': 'Internet traffic data (in GB) from a private ISP with centres in 11 European cities. The data corresponds to a transatlantic link and was collected from 06:57 hours on 7 June to 11:17 hours on 31 July 2005. Data collected at five minute intervals.',
         'data': data['Internet traffic data (in GB)']
     }
 
@@ -145,7 +151,9 @@ def get_dummy_forecast():
     forecast_data['upper bound'] = forecast_data['value'] * 1.10
 
     return {
+        'id': 0,
         'name': 'internet traffic forecast',
+        'description': 'Forecast description.',
         'training_data': training_set,
         'validation_split': 1120780799,
         'true_forecast_data': real_data,
@@ -155,9 +163,19 @@ def get_dummy_forecast():
 def get_data_set(data_set_id):
     if data_set_id is None or data_set_id == 'random':
         return generate_random_data_set()
-    if data_set_id == 'random_live':
-        return live_data.get_data_set()
     return get_dummy_data_set()
 
-def get_forecast(forecast_id):
+def get_live_data_set(data_set_id):
+    return live_random_data.get_data_set()
+
+def get_forecast_data_set(forecast_id):
     return get_dummy_forecast()
+
+def get_all_data_sets():
+    return [get_dummy_data_set(), generate_random_data_set()]
+
+def get_all_live_data_sets():
+    return [live_random_data.get_data_set()]
+
+def get_all_eval_forecast_data_sets():
+    return [get_dummy_forecast()]
