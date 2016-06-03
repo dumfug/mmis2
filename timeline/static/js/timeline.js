@@ -50,10 +50,10 @@ var live_plot = function(event) {
         viz.transition_on_update = false;
 
         MG.data_graphic(viz);
-        activateLiveUpdate(viz, 1000);
+        activateLiveUpdate(viz, 1000, {'max_size': -10, 'time_delta': 30 /* seconds */});
     });
 
-    function activateLiveUpdate(viz, interval) {
+    function activateLiveUpdate(viz, interval, window) {
         setInterval(function() {
             var data = viz['data'][0];
             var last_date = data[data.length-1]['date'];
@@ -64,7 +64,23 @@ var live_plot = function(event) {
                     d['date'] = UnixTimeStampToDate(d['date']);
                     return d;
                 });
-                viz['data'][0].push.apply(viz['data'][0], new_data)
+
+                if (typeof window !== 'undefined' && window !== null) {
+                    if (window['max_size'] && window['max_size'] > 0) {
+                        while (viz['data'][0].length + new_data.length > window['max_size']) {
+                            viz['data'][0].shift();
+                        }
+                    }
+                    if (window['time_delta'] && window['time_delta'] > 0) {
+                        var start_timestamp = new Date();
+                        start_timestamp.setSeconds(start_timestamp.getSeconds() - window['time_delta']);
+                        while (viz['data'][0][0]['date'] < start_timestamp) {
+                            viz['data'][0].shift();
+                        }
+                    }
+                }
+                
+                viz['data'][0].push.apply(viz['data'][0], new_data);
                 MG.data_graphic(viz);
             });
         }, interval);
