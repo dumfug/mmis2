@@ -18,20 +18,14 @@ var time_plot = function(event) {
     });
 };
 
-var multiple_time_plots = function(event) {
-    var get_params = {
-        'ts1': 'random',
-        'ts2': 'random',
-        'ts3': 'random'
-    };
-
-    $.getJSON($SCRIPT_ROOT + '/time_plots', get_params, function(viz) {
+function multiple_time_plots(target_id, data_sets) {
+    $.getJSON($SCRIPT_ROOT + '/time_plots', data_sets, function(viz) {
         convertDataArray(viz);
 
-        viz.width = 800;
-        viz.height = 400;
+        viz.full_width = true;
+        viz.height = 500;
         viz.right = 80;
-        viz.target = $('#multiple-time-plots-canvas')[0];
+        viz.target = target_id;
 
         MG.data_graphic(viz);
     });
@@ -79,7 +73,7 @@ var live_plot = function(event) {
                         }
                     }
                 }
-                
+
                 viz['data'][0].push.apply(viz['data'][0], new_data);
                 MG.data_graphic(viz);
             });
@@ -119,6 +113,16 @@ var forcasting_eval_plot = function(event) {
         viz.legend_target = '.legend';
 
         MG.data_graphic(viz);
+    });
+}
+
+function create_empty_plot(target_id, message) {
+    MG.data_graphic({
+        chart_type: 'missing-data',
+        missing_text: message,
+        target: target_id,
+        full_width: true,
+        height: 400
     });
 }
 

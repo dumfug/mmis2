@@ -1,0 +1,37 @@
+{% extends "layout.html" %} {% block body %}
+<div class="container">
+    <h1>Multi Time Series Plot</h1>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Choose Data Sets</div>
+        <div class="panel-body">
+            {% for data_set in data_sets %}
+            <div class="checkbox">
+              <label><input type="checkbox" value="{{ data_set.id }}">{{ data_set.name }}</label>
+            </div>
+            {% else %}
+            <em>Sorry, no data sets available</em>
+            {% endfor %}
+
+            <button id='btn-generate-plot' type="button" class="btn btn-primary pull-right">generate plot</button>
+        </div>
+    </div>
+
+    <div id='multiple-time-plots-canvas'></div>
+</div> <!-- /.container -->
+
+<script type="text/javascript">
+    $('#btn-generate-plot').bind('click', function(e) {
+        var data_sets = {};
+        $("input:checkbox:checked").each(function(){
+            var id = ($(this).val());
+            data_sets[id] = id;
+        });
+
+        multiple_time_plots('#multiple-time-plots-canvas', data_sets);
+    });
+
+    create_empty_plot('#multiple-time-plots-canvas', '');
+</script>
+
+{% endblock %}
