@@ -48,7 +48,7 @@ def time_plots():
     viz = time_series_plot(data_sets, area=False)
     return Response(json.dumps(viz), mimetype='application/json')
 
-@app.route('/live_plot', defaults = {'data_set_id': 'random'})
+@app.route('/live_plot', defaults = {'data_set_id': 'random_live'})
 @app.route('/live_plot/<data_set_id>')
 def live_plot(data_set_id):
     data_set = get_data_set(data_set_id)
