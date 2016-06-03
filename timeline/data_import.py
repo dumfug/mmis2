@@ -11,11 +11,12 @@ import numpy as np
 
 
 class LiveRandomData(object):
-    # TODO: gracefully kill thread.
     def __init__(self):
         self.ts = pd.Series()
         self.queue = queue.Queue()
+
         generator = threading.Thread(target=self._data_generator)
+        generator.daemon=True
         generator.start()
 
     def get_data_set(self):
