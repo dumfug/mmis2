@@ -1,7 +1,10 @@
 import json
 from datetime import datetime
 from flask import Flask, render_template, request, Response, abort
-from data_import import get_data_set, get_forecast
+from data_import import (
+    get_data_set, get_live_data_set, get_forecast_data_set, get_all_data_sets,
+    get_all_live_data_sets, get_all_eval_forecast_data_sets
+)
 from visualizations import (
     time_series_plot, add_rolling_mean, add_rolling_std, auto_correlation_plot,
     forecasting_eval_plot, build_data_object
@@ -51,7 +54,7 @@ def time_plots():
 @app.route('/live_plot', defaults = {'data_set_id': 'random_live'})
 @app.route('/live_plot/<data_set_id>')
 def live_plot(data_set_id):
-    data_set = get_data_set(data_set_id)
+    data_set = get_live_data_set(data_set_id)
 
     if request.args.get('last_received', None):
         last_timestamp = int(request.args.get('last_received'))
@@ -82,7 +85,7 @@ def acf_plot(data_set_id):
 
 @app.route('/forecasting_plot/<int:forecast_id>')
 def forcasting_plot(forecast_id):
-    forecast = get_forecast(forecast_id)
+    forecast = get_forecast_data_set(forecast_id)
     viz = forecasting_eval_plot(forecast, area=False)
     return Response(json.dumps(viz), mimetype='application/json')
 
@@ -92,7 +95,12 @@ def test():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template(
+        'index.html',
+        data_sets=get_all_data_sets(),
+        live_data_sets=get_all_live_data_sets(),
+        eval_data_sets=get_all_eval_forecast_data_sets()
+    )
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

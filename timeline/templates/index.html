@@ -1,41 +1,48 @@
 {% extends "layout.html" %} {% block body %}
 <div class="container">
+
   <div>
     <h1>Data Sets</h1>
     <div class="list-group">
-  <a href="#" class="list-group-item">
-    <h4 class="list-group-item-heading">List group item heading</h4>
-    <p class="list-group-item-text">...</p>
-  </a>
-</div>
-
+        {% for data_set in data_sets %}
+        <a href="/info/{{data_set.id}}" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ data_set.name }}</h4>
+            <p class="list-group-item-text">{{ data_set.description }}</p>
+        </a>
+        {% else %}
+        <em>Sorry, no data sets available</em>
+        {% endfor %}
+    </div>
   </div>
+
   <div>
     <h1>Live Data Sets</h1>
     <div class="list-group">
-  <a href="#" class="list-group-item">
-    <h4 class="list-group-item-heading">List group item heading</h4>
-    <p class="list-group-item-text">...</p>
-  </a>
-</div>
+        {% for data_set in live_data_sets %}
+        <a href="/live_info/{{data_set.id}}" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ data_set.name }}</h4>
+            <p class="list-group-item-text">{{ data_set.description }}</p>
+        </a>
+        {% else %}
+        <em>Sorry, no data sets available</em>
+        {% endfor %}
+    </div>
   </div>
+
   <div>
     <h1>Evaluation Data Sets</h1>
     <div class="list-group">
-      <a href="#" class="list-group-item">
-      <h4 class="list-group-item-heading">List group item heading</h4>
-      <p class="list-group-item-text">...</p>
-    </a>
-    <a href="#" class="list-group-item">
-    <h4 class="list-group-item-heading">List group item heading</h4>
-    <p class="list-group-item-text">...</p>
-  </a>
-  <a href="#" class="list-group-item">
-  <h4 class="list-group-item-heading">List group item heading</h4>
-  <p class="list-group-item-text">...</p>
-</a>
+        {% for data_set in eval_data_sets %}
+        <a href="/eval_info/{{data_set.id}}" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ data_set.name }}</h4>
+            <p class="list-group-item-text">{{ data_set.description }}</p>
+        </a>
+        {% else %}
+        <em>Sorry, no data sets available.</em>
+        {% endfor %}
+    </div>
   </div>
-  </div>
-</div>
-<!-- /.container -->
+
+</div> <!-- /.container -->
+
 {% endblock %}
