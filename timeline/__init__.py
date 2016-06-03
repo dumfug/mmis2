@@ -90,6 +90,18 @@ def forcasting_plot(forecast_id):
 def test():
     return render_template('test.html')
 
+@app.route('/info/<data_set_id>)
+def info(data_set_id):
+    return render_template('info.html')
+
+@app.route('/live_info/<data_set_id>)
+def live_info(data_set_id):
+    return render_template('live_info.html')
+
+@app.route('/eval_info/<data_set_id>)
+def eval_info(data_set_id):
+    return render_template('eval_info.html')
+
 @app.route('/')
 def index():
     return render_template('index.html')
