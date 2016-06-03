@@ -8,7 +8,7 @@ import datetime
 
 import pandas as pd
 import numpy as np
-
+import glob
 
 class LiveRandomData(object):
     def __init__(self):
@@ -44,6 +44,65 @@ class LiveRandomData(object):
             time.sleep(1)
 
 live_random_data = LiveRandomData()
+
+class csvData:
+
+    data = []
+
+    def __init__(self, name, description, isForecast):
+        self.name = name
+        self.description = description
+        self.isForecast = isForecast
+
+    def add_data(self, data):
+        self.data.append(data)
+
+def get_data_set_from_folder():
+    csvMap = {}
+    counter = 0
+
+    for fileName in glob.glob('../datasets/*.csv'):
+
+        print(fileName)
+
+        data = pd.read_csv(fileName, parse_dates='Time', index_col='Time', comment='#')
+        data = data / 8 / 2**30 # convert bits into GB
+        data.rename(columns={'Internet traffic data (in bits)':
+                             'Internet traffic data (in GB)'}, inplace=True)
+
+        i = 0
+        with open(fileName) as f:
+            for line in f:
+                if line.startswith('#'):
+                    comment = line.split(':')
+
+                    if comment[0] == "#name":
+                        name = comment[1]
+                    elif comment[0] == "#description":
+                        description = comment[1]
+                    elif comment[0] == "#isForecast":
+                        isForecast = comment[1]
+                i += 1
+
+        f.close()
+
+        csv = csvData(name, description, isForecast)
+        csv.add_data(data)
+
+        csvMap[counter] = csv
+
+        counter += 1
+
+    j = 0
+    while j < len(csvMap):
+        print("DATA", j)
+        print(csvMap[j].name)
+        print(csvMap[j].description)
+        print(csvMap[j].isForecast)
+        print("--------------")
+        j += 1
+
+    return csvMap
 
 def generate_random_data_set(nsamples=1000):
     generate_random_data_set.counter += 1

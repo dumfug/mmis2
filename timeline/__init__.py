@@ -100,6 +100,14 @@ def info(data_set_id):
         data_set=get_data_set(data_set_id)
     )
 
+@app.route('/multi_time_plots')
+def multi_time_plots():
+    return render_template(
+        'multi_time_plots.html',
+        data_sets=get_all_data_sets()
+    )
+
+
 @app.route('/live_info/<data_set_id>')
 def live_info(data_set_id):
     return render_template(

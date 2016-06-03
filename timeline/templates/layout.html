@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
-    <head>
-        <title>timeline___</title>
+  <head>
+    <title>timeline</title>
 
 	<!-- root -->
   <script type="text/javascript"> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
@@ -12,9 +12,9 @@
   <!-- moment -->
   <script type="text/javascript" src="{{url_for('static', filename='libs/moment.min.js') }}"></script>
 
-	<!-- Bootstrap Core CSS -->
-	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">
-	<script type=text/javascript src="{{url_for('static', filename='libs/bootstrap.min.js') }}"></script>
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">
+  <script type=text/javascript src="{{url_for('static', filename='libs/bootstrap.min.js') }}"></script>
 
   <!-- Bootstrap Date Time picker -->
   <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-datetimepicker.min.css') }}">
@@ -27,9 +27,8 @@
   <link rel="stylesheet" href="{{url_for('static', filename='css/metricsgraphics.css') }}">
 	<script type=text/javascript src="{{url_for('static', filename='libs/metricsgraphics.js') }}"></script>
 
-	<!--Styles CSS -->
-	<link rel="stylesheet" href="{{url_for('static', filename='css/timeline.css') }}">
-
+  <!-- timeline -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/timeline.css') }}">
   <script type=text/javascript src="{{url_for('static', filename='js/timeline.js') }}"></script>
     </head>
 
@@ -47,12 +46,14 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/multi_time_plots">Multi Time Series Plot</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div> <!--/.nav-collapse -->
       </div>
     </nav>
-        {% block body %}{% endblock %}
+
+    {% block body %}{% endblock %}
+
     </body>
 </html>
