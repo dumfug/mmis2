@@ -1,19 +1,19 @@
+# encoding: utf-8
+
 import json
 from datetime import datetime
-from flask import Flask, render_template, request, Response, abort
-from data_import import (
-    get_data_set, get_live_data_set, get_forecast_data_set, get_all_data_sets,
-    get_all_live_data_sets, get_all_eval_forecast_data_sets
-)
+from flask import Blueprint, request, Response, abort
+from data_import import get_data_set, get_live_data_set, get_forecast_data_set
 from visualizations import (
     time_series_plot, add_rolling_mean, add_rolling_std, auto_correlation_plot,
     forecasting_eval_plot, build_data_object
 )
 
-app = Flask(__name__)
 
-@app.route('/time_plot', defaults = {'data_set_id': 'random'})
-@app.route('/time_plot/<data_set_id>')
+api = Blueprint('api', __name__)
+
+@api.route('/time_plot', defaults={'data_set_id': 'random'})
+@api.route('/time_plot/<data_set_id>')
 def time_plot(data_set_id):
     # TODO: error handling for invalid data set id
     data_set = get_data_set(data_set_id)
@@ -44,15 +44,15 @@ def time_plot(data_set_id):
 
     return Response(json.dumps(viz), mimetype='application/json')
 
-@app.route('/time_plots')
+@api.route('/time_plots')
 def time_plots():
     # TODO: error handling for invalid data set ids
     data_sets = [get_data_set(id) for _, id in request.args.items()]
     viz = time_series_plot(data_sets, area=False)
     return Response(json.dumps(viz), mimetype='application/json')
 
-@app.route('/live_plot', defaults = {'data_set_id': 'random_live'})
-@app.route('/live_plot/<data_set_id>')
+@api.route('/live_plot', defaults={'data_set_id': 'random_live'})
+@api.route('/live_plot/<data_set_id>')
 def live_plot(data_set_id):
     data_set = get_live_data_set(data_set_id)
 
@@ -66,13 +66,14 @@ def live_plot(data_set_id):
     viz = time_series_plot(data_set, area=False)
     return Response(json.dumps(viz), mimetype='application/json')
 
-@app.route('/acf_plot/<data_set_id>')
+@api.route('/acf_plot/<data_set_id>')
 def acf_plot(data_set_id):
     data_set = get_data_set(data_set_id)
 
     try:
         max_lag = int(request.args.get('max_lag', ''))
-        if max_lag <= 0: raise ValueError
+        if max_lag <= 0:
+            raise ValueError
     except ValueError:
         abort(400)
 
@@ -83,53 +84,8 @@ def acf_plot(data_set_id):
 
     return Response(json.dumps(viz), mimetype='application/json')
 
-@app.route('/forecasting_plot/<int:forecast_id>')
+@api.route('/forecasting_plot/<int:forecast_id>')
 def forcasting_plot(forecast_id):
     forecast = get_forecast_data_set(forecast_id)
     viz = forecasting_eval_plot(forecast, area=False)
     return Response(json.dumps(viz), mimetype='application/json')
-
-@app.route('/test')
-def test():
-    return render_template('test.html')
-
-@app.route('/info/<data_set_id>')
-def info(data_set_id):
-    return render_template(
-        'info.html',
-        data_set=get_data_set(data_set_id)
-    )
-
-@app.route('/multi_time_plots')
-def multi_time_plots():
-    return render_template(
-        'multi_time_plots.html',
-        data_sets=get_all_data_sets()
-    )
-
-
-@app.route('/live_info/<data_set_id>')
-def live_info(data_set_id):
-    return render_template(
-        'live_info.html',
-        data_set=get_live_data_set(data_set_id)
-    )
-
-@app.route('/eval_info/<data_set_id>')
-def eval_info(data_set_id):
-    return render_template(
-        'eval_info.html',
-        data_set=get_forecast_data_set(data_set_id)
-    )
-
-@app.route('/')
-def index():
-    return render_template(
-        'index.html',
-        data_sets=get_all_data_sets(),
-        live_data_sets=get_all_live_data_sets(),
-        eval_data_sets=get_all_eval_forecast_data_sets()
-    )
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)

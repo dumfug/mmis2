@@ -1,7 +1,7 @@
 var time_plot = function(event) {
     var params = event.data;
 
-    $.getJSON($SCRIPT_ROOT + '/time_plot/' + params.id, params, function(viz) {
+    $.getJSON($SCRIPT_ROOT + '/api/time_plot/' + params.id, params, function(viz) {
         convert_data_array(viz);
 
         viz.full_width = true;
@@ -16,7 +16,7 @@ var time_plot = function(event) {
 function multiple_time_plots(target_id, data_sets) {
     show_empty_plot(target_id, 'loading...');
 
-    $.getJSON($SCRIPT_ROOT + '/time_plots', data_sets, function(viz) {
+    $.getJSON($SCRIPT_ROOT + '/api/time_plots', data_sets, function(viz) {
         convert_data_array(viz);
 
         viz.full_width = true;
@@ -31,7 +31,7 @@ function multiple_time_plots(target_id, data_sets) {
 };
 
 var live_plot = function(event) {
-        var route = $SCRIPT_ROOT + '/live_plot/random_live';
+        var route = $SCRIPT_ROOT + '/api/live_plot/random_live';
         $.getJSON(route, function(viz) {
         convert_data_array(viz);
 
@@ -86,7 +86,7 @@ var acf_plot = function(event) {
         'scale': true
     };
 
-    $.getJSON($SCRIPT_ROOT + '/acf_plot/0', get_params, function(viz) {
+    $.getJSON($SCRIPT_ROOT + '/api/acf_plot/0', get_params, function(viz) {
         viz.width = 800;
         viz.height = 400;
         viz.target = $('#acf-plot-canvas')[0];
@@ -98,7 +98,7 @@ var acf_plot = function(event) {
 };
 
 var forcasting_eval_plot = function(event) {
-    $.getJSON($SCRIPT_ROOT + '/forecasting_plot/0', function(viz) {
+    $.getJSON($SCRIPT_ROOT + '/api/forecasting_plot/0', function(viz) {
         convert_data_array(viz);
 
         viz.markers.map(function(d) {

@@ -14,4 +14,4 @@ pip install -r requirements.txt
 
 echo "start timeline server on port 5000"
 cd /timeline/git/timeline
-python3.5 __init__.py > ~/timelinelogs/timeline_"$(date +"%Y%m%d_%H%M%S")" 2>&1 &
+python3.5 app.py > ~/timelinelogs/timeline_"$(date +"%Y%m%d_%H%M%S")" 2>&1 &
