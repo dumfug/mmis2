@@ -19,6 +19,8 @@ var time_plot = function(event) {
 };
 
 function multiple_time_plots(target_id, data_sets) {
+    show_empty_plot(target_id, 'loading...');
+
     $.getJSON($SCRIPT_ROOT + '/time_plots', data_sets, function(viz) {
         convertDataArray(viz);
 
@@ -28,6 +30,8 @@ function multiple_time_plots(target_id, data_sets) {
         viz.target = target_id;
 
         MG.data_graphic(viz);
+    }).fail(function() {
+        show_empty_plot(target_id, 'sorry, an error occurred');
     });
 };
 
@@ -116,7 +120,7 @@ var forcasting_eval_plot = function(event) {
     });
 }
 
-function create_empty_plot(target_id, message) {
+function show_empty_plot(target_id, message) {
     MG.data_graphic({
         chart_type: 'missing-data',
         missing_text: message,

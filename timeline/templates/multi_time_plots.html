@@ -1,4 +1,5 @@
 {% extends "layout.html" %} {% block body %}
+
 <div class="container">
     <h1>Multi Time Series Plot</h1>
 
@@ -17,6 +18,8 @@
         </div>
     </div>
 
+    <div id="error_div"></div>
+
     <div id='multiple-time-plots-canvas'></div>
 </div> <!-- /.container -->
 
@@ -28,10 +31,15 @@
             data_sets[id] = id;
         });
 
-        multiple_time_plots('#multiple-time-plots-canvas', data_sets);
+        if ($.isEmptyObject(data_sets)) {
+            show_error('Error: please select at least one data set', 'error_div');
+        } else {
+            multiple_time_plots('#multiple-time-plots-canvas', data_sets);
+        }
+
     });
 
-    create_empty_plot('#multiple-time-plots-canvas', '');
+    show_empty_plot('#multiple-time-plots-canvas', '');
 </script>
 
 {% endblock %}
