@@ -90,8 +90,8 @@
     var params = {
       'id': {{ data_set.id }},
       'target': '#time-plot-canvas',
-      'start_date': DateToUnixTimeStamp(new Date('2005/06/20 00:00:00')),
-      'end_date': DateToUnixTimeStamp(new Date('2005/06/27 23:59:59')),
+      'start_date': date_to_unix_time_stamp(new Date('2005/06/20 00:00:00')),
+      'end_date': date_to_unix_time_stamp(new Date('2005/06/27 23:59:59')),
       'rolling_mean_window': 600,
       'rolling_std_window': 600,
       'height': 500

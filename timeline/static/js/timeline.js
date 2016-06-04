@@ -2,7 +2,7 @@ var time_plot = function(event) {
     var params = event.data;
 
     $.getJSON($SCRIPT_ROOT + '/time_plot/' + params.id, params, function(viz) {
-        convertDataArray(viz);
+        convert_data_array(viz);
 
         viz.full_width = true;
         viz.height = 400;
@@ -17,7 +17,7 @@ function multiple_time_plots(target_id, data_sets) {
     show_empty_plot(target_id, 'loading...');
 
     $.getJSON($SCRIPT_ROOT + '/time_plots', data_sets, function(viz) {
-        convertDataArray(viz);
+        convert_data_array(viz);
 
         viz.full_width = true;
         viz.height = 500;
@@ -33,7 +33,7 @@ function multiple_time_plots(target_id, data_sets) {
 var live_plot = function(event) {
         var route = $SCRIPT_ROOT + '/live_plot/random_live';
         $.getJSON(route, function(viz) {
-        convertDataArray(viz);
+        convert_data_array(viz);
 
         viz.width = 800;
         viz.height = 400;
@@ -50,11 +50,11 @@ var live_plot = function(event) {
         setInterval(function() {
             var data = viz['data'][0];
             var last_date = data[data.length-1]['date'];
-            var get_params = {'last_received': DateToUnixTimeStamp(last_date)};
+            var get_params = {'last_received': date_to_unix_time_stamp(last_date)};
 
             $.getJSON(route, get_params, function(new_data) {
                 new_data.map(function(d) {
-                    d['date'] = UnixTimeStampToDate(d['date']);
+                    d['date'] = unix_time_stamp_to_date(d['date']);
                     return d;
                 });
 
@@ -99,10 +99,10 @@ var acf_plot = function(event) {
 
 var forcasting_eval_plot = function(event) {
     $.getJSON($SCRIPT_ROOT + '/forecasting_plot/0', function(viz) {
-        convertDataArray(viz);
+        convert_data_array(viz);
 
         viz.markers.map(function(d) {
-            d['date'] = UnixTimeStampToDate(d['date']);
+            d['date'] = unix_time_stamp_to_date(d['date']);
             return d;
         });
 
@@ -125,19 +125,11 @@ function show_empty_plot(target_id, message) {
     });
 }
 
-function convertDataArray(viz) {
+function convert_data_array(viz) {
     for (var i = 0; i < viz.data.length; i++) {
         viz.data[i].map(function(d) {
-            d['date'] = UnixTimeStampToDate(d['date']);
+            d['date'] = unix_time_stamp_to_date(d['date']);
             return d;
         });
     }
-}
-
-function DateToUnixTimeStamp(date) {
-    return Math.round(date.getTime() / 1000);
-}
-
-function UnixTimeStampToDate(time_stamp) {
-    return new Date(time_stamp * 1000);
 }
