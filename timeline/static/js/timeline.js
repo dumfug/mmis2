@@ -1,17 +1,12 @@
 var time_plot = function(event) {
-    var get_params = {
-        'start_date': DateToUnixTimeStamp(new Date('2005/06/20 00:00:00')),
-        'end_date': DateToUnixTimeStamp(new Date('2005/06/27 23:59:59')),
-        'rolling_mean_window': 600,
-        'rolling_std_window': 600
-    };
+    var params = event.data;
 
-    $.getJSON($SCRIPT_ROOT + '/time_plot/0', get_params, function(viz) {
+    $.getJSON($SCRIPT_ROOT + '/time_plot/' + params.id, params, function(viz) {
         convertDataArray(viz);
 
-        viz.width = 800;
+        viz.full_width = true;
         viz.height = 400;
-        viz.target = $('#time-plot-canvas')[0];
+        viz.target = $(params.target)[0];
         viz.right = 40;
 
         MG.data_graphic(viz);

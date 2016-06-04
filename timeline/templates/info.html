@@ -2,9 +2,124 @@
 <div class="container">
 
   <div>
-    <h1> {{data_set.name}} </h1>
+    <h1>{{data_set.name}}</h1>
   </div>
 
+  <div id='information'>
+    <h2>Information</h2>
+    <ul class="list-group">
+      <li class="list-group-item"><b>Description:</b> {{data_set.description}}</li>
+      <li class="list-group-item"><b>Datapoints:</b> 1234</li>
+      <li class="list-group-item"><b>Number of Samples:</b> 1234</li>
+      <li class="list-group-item"><b>Startdate:</b> 1234</li>
+      <li class="list-group-item"><b>Enddate:</b> 1234</li>
+      <li class="list-group-item"><b>Period:</b> 1234</li>
+    </ul>
+    </div>
 
-<!-- /.container -->
+  <div id='time_series_plot'>
+    <h2>Time Series Plot</h2>
+    <div class='plot_window'>
+      <div id='time-plot-canvas'></div>
+      <div id='window_params'>
+
+        <div id='first_param'>
+        <p>running mean</p>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <input type="checkbox" id="mean_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
+            </span>
+            <input type="text" id="mean_text" class="form-control" aria-label="...">
+          </div><!-- /input-group -->
+        </div>
+
+        <div id='second_param'>
+        <p>running std.</p>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <input type="checkbox" id="std_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
+            </span>
+            <input type="text" id="std_text" class="form-control" aria-label="...">
+          </div><!-- /input-group -->
+        </div>
+
+        <div id='third_param'>
+        <p>start date</p>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input type="checkbox" id="start_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
+          </span>
+          <input type='text' id="start_date" class="form-control" />
+        </div><!-- /input-group -->
+        </div>
+
+        <div id='forth_param'>
+        <p>end date</p>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <input type="checkbox" id="end_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
+            </span>
+            <input type='text' id="end_date" class="form-control" />
+          </div><!-- /input-group -->
+        </div>
+        <button type="button" id="btn_update" class="btn btn-default">Update</button>
+      </div>
+    </div>
+  </div>
+
+  <div id='acf_plot'>
+    <h2>ACF Plot</h2>
+  </div>
+</div> <!-- /.container -->
+
+<script type="text/javascript">
+
+  function toggleCheckbox(element) {
+    if(element.id === "mean_checkbox") {
+      $('#mean_text').prop("disabled", !element.checked);
+    } else if (element.id === "std_checkbox") {
+      $('#std_text').prop("disabled", !element.checked);
+    } else if (element.id === "start_checkbox") {
+      $('#start_date').prop("disabled", !element.checked);
+    } else if (element.id === "end_checkbox") {
+      $('#end_date').prop("disabled", !element.checked);
+    }
+  };
+
+  var update_time_series = function(event) {
+    var params = {
+      'id': {{ data_set.id }},
+      'target': '#time-plot-canvas',
+      'start_date': DateToUnixTimeStamp(new Date('2005/06/20 00:00:00')),
+      'end_date': DateToUnixTimeStamp(new Date('2005/06/27 23:59:59')),
+      'rolling_mean_window': 600,
+      'rolling_std_window': 600,
+      'height': 500
+    };
+      $('a#btn-time-plot').bind('click', { params:params }, time_plot);
+
+      $("#datetimepicker1").click( function(){
+          console.log($("#datetimepicker1").data("DateTimePicker").date().toDate());
+        });
+
+  };
+</script>
+
+<script type="text/javascript">
+    $('#mean_text').prop("disabled", true);
+    $('#std_text').prop("disabled", true);
+    $('#start_date').prop("disabled", true);
+    $('#end_date').prop("disabled", true);
+
+    $('#start_date').datetimepicker();
+    $('#end_date').datetimepicker();
+
+    var params = {
+      'id': {{ data_set.id }},
+      'target': '#time-plot-canvas',
+      'height': 500
+    };
+
+    time_plot({'data': params});
+</script>
 {% endblock %}

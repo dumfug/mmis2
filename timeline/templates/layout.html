@@ -1,53 +1,65 @@
 <!doctype html>
 <html>
-    <head>
-        <title>timeline</title>
 
-	    <!-- root -->
-        <script type="text/javascript"> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+<head>
+    <title>timeline</title>
 
-        <!-- jquery -->
-        <script type=text/javascript src="{{url_for('static', filename='libs/jquery.min.js') }}"></script>
+    <!-- root -->
+    <script type="text/javascript">
+        var $SCRIPT_ROOT = {{ request.script_root | tojson | safe }};
+    </script>
 
-    	<!-- bootstrap -->
-    	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">
-    	<script type=text/javascript src="{{url_for('static', filename='libs/bootstrap.min.js') }}"></script>
+    <!-- jquery -->
+    <script type=text/javascript src="{{ url_for('static', filename='libs/jquery.min.js') }}"></script>
 
-        <!-- d3 -->
-        <script type=text/javascript src="{{url_for('static', filename='libs/d3.js') }}"></script>
+    <!-- moment -->
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/moment.min.js') }}"></script>
 
-        <!-- metricsgraphics -->
-        <link rel="stylesheet" href="{{url_for('static', filename='css/metricsgraphics.css') }}">
-        <script type=text/javascript src="{{url_for('static', filename='libs/metricsgraphics.js') }}"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script type=text/javascript src="{{ url_for('static', filename='libs/bootstrap.min.js') }}"></script>
 
-    	<!-- timeline -->
-    	<link rel="stylesheet" href="{{url_for('static', filename='css/timeline.css') }}">
-        <script type=text/javascript src="{{url_for('static', filename='js/utils.js') }}"></script>
-        <script type=text/javascript src="{{url_for('static', filename='js/timeline.js') }}"></script>
-    </head>
+    <!-- bootstrap datetimepicker -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datetimepicker.min.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/bootstrap-datetimepicker.min.js') }}"></script>
 
-    <body>
+    <!-- d3 -->
+    <script type=text/javascript src="{{ url_for('static', filename='libs/d3.js') }}"></script>
+
+    <!-- metricsgraphics -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/metricsgraphics.css') }}">
+    <script type=text/javascript src="{{ url_for('static', filename='libs/metricsgraphics.js') }}"></script>
+
+    <!-- timeline -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/timeline.css') }}">
+    <script type=text/javascript src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='js/timeline.js') }}"></script>
+</head>
+
+<body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">timeline</a>
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">timeline</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/multi_time_plots">Multi Time Series Plot</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/multi_time_plots">Multi Time Series Plot</a></li>
-          </ul>
-        </div> <!--/.nav-collapse -->
-      </div>
     </nav>
 
     {% block body %}{% endblock %}
 
-    </body>
+</body>
+
 </html>
