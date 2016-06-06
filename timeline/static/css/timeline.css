@@ -6,7 +6,7 @@ body {
   text-align: center;
 }
 
-#time-plot-canvas {
+.plot-canvas {
   width: 80%;
   float: left;
 }
@@ -16,6 +16,6 @@ body {
   float: left;
 }
 
-#acf_plot {
+#clear {
   clear:left;
 }
