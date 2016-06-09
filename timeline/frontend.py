@@ -1,9 +1,9 @@
 # encoding: utf-8
 
 from flask import Blueprint, render_template
-from data_import import (
-    get_data_set, get_live_data_set, get_forecast_data_set, get_all_data_sets,
-    get_all_live_data_sets, get_all_eval_forecast_data_sets
+from data_sets import (
+    get_data_set, get_live_data_set, get_forecast, get_all_data_sets,
+    get_all_live_data_sets, get_all_forecasts
 )
 
 frontend = Blueprint('profile', __name__)
@@ -37,7 +37,7 @@ def live_info(data_set_id):
 def eval_info(data_set_id):
     return render_template(
         'eval_info.html',
-        data_set=get_forecast_data_set(data_set_id)
+        data_set=get_forecast(data_set_id)
     )
 
 @frontend.route('/')
@@ -46,5 +46,5 @@ def index():
         'index.html',
         data_sets=get_all_data_sets(),
         live_data_sets=get_all_live_data_sets(),
-        eval_data_sets=get_all_eval_forecast_data_sets()
+        eval_data_sets=get_all_forecasts()
     )

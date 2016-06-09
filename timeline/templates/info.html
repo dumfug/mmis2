@@ -115,7 +115,7 @@
     var end_date = $("#end_date").data("DateTimePicker").date();
 
     var params = {
-      'id': {{ data_set.id }},
+      'id': '{{ data_set.id }}',
       'target': '#time-plot-canvas',
       'height': 500
     };
@@ -148,7 +148,7 @@
   $('#end_date').datetimepicker();
 
   var params = {
-    'id': {{ data_set.id }},
+    'id': '{{ data_set.id }}',
     'target': '#time-plot-canvas',
     'height': 500
   };
@@ -156,6 +156,7 @@
     show_empty_plot('#time-plot-canvas', 'loading');
     time_plot({'data': params});
     show_empty_plot('#acf-plot-canvas', 'loading');
-    acf_plot({'data': params});
+    acf_plot({'data': params}); // TODO: handle params in function correctly
+    // and move show empty plot calls into the functions
 </script>
 {% endblock %}
