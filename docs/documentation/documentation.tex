@@ -26,8 +26,50 @@
 \maketitle
 \tableofcontents
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction} \label{sec:intoduction}
+
+
+\section{Requirements} \label{sec:requirments}
+
+\begin{itemize}
+ \item \textgreater= Python 3.5
+\end{itemize}
+ 
+
+\section{Dependencies} \label{sec:dependencies}
+
+This section contains a description of all used external dependencies (e.g. libraries) and why they were used in this project.
+The python dependencies can be installed using \texttt{pip}, the Python package manager, using the \texttt{requirements.txt} file. 
+It is recommended to use a virtual environments when developing for this project to avoid conflicts with other system-wide installed versions of the same dependencies.
+
+
+\subsection{Back-end (Python)}
+
+\begin{description}
+ \item[Flask] 
+ Flask is a microframework (simple but extendable) for web development. 
+ It allows RESTful request dispatching and is well documented. 
+ In this project Flask is used for the rendering of the front-end using its template engine and providing an API for the supported visualizations.
+ 
+ \item[Pandas] 
+ Pandas is a widely used data analysis library. 
+ It provides data structures to efficiently store and query in-memory data. 
+ All temporal data (i.e. all time series) in this project is stored in Pandas DataFrame or Series objects. 
+ 
+ \item[NumPy] 
+ NumPy is a powerful package for scientific computing. 
+ It provides efficient data structures and algorithms to operate on them. 
+ However, in this project this library is only used to sample random data for the example data sets and is therefore not very important. 
+\end{description}
+
+
+\subsection{Front-end (HTML5)}
+
+\begin{description}
+ \item[jQuery]
+ \item[MetricsGraphics.js]
+ \item[Bootstrap]
+\end{description}
 
 
 \end{document}

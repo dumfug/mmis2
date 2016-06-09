@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 
-import numpy as np
+import math
 
 
 def time_series_plot(data_sets, start_date=None, end_date=None, **kwargs):
@@ -50,10 +50,10 @@ def auto_correlation_plot(data_set, max_lag, **kwargs):
         data.append({
             'lag': lag,
             'autocorrelation': data_set.data.autocorr(lag),
-            'plus95conf': z95 / np.sqrt(nsamples),
-            'plus99conf': z99 / np.sqrt(nsamples),
-            'minus95conf': -z95 / np.sqrt(nsamples),
-            'minus99conf': -z99 / np.sqrt(nsamples),
+            'plus95conf': z95 / math.sqrt(nsamples),
+            'plus99conf': z99 / math.sqrt(nsamples),
+            'minus95conf': -z95 / math.sqrt(nsamples),
+            'minus99conf': -z99 / math.sqrt(nsamples),
         })
 
     return {'title': 'ACF', 'data': data, 'x_accessor': 'lag',
