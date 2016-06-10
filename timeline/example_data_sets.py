@@ -34,21 +34,24 @@ def generate_random_live_data_set():
 def generate_internet_traffic_forecast():
     data = pd.read_csv('../datasets/internet-traffic-data.csv',
         parse_dates='Time', index_col='Time')
-    data = data / 8 / 2**30 # convert bits into GB
-    data.rename(columns={'Internet traffic data (in bits)': 'GB'},
-        inplace=True)
+    data = data / 8 / 2**30  # convert bits into GB
+    data = data['Internet traffic data (in bits)']
 
-    training_set = data['GB'][:'2005-07-13 23:59:59'].copy()
-    test_set = data['GB']['2005-07-14 00:00:00':].copy()
-    forecast_data = data['2005-07-14 00:00:00':].copy()
-    forecast_data.rename(columns={'GB': 'value'}, inplace=True)
-    forecast_data['value'] = 0.5
-    forecast_data['lower bound'] = forecast_data['value'] * 0.90
-    forecast_data['upper bound'] = forecast_data['value'] * 1.10
+    split_point = int(len(data) * 0.75)
+    training_set = data[:split_point]
+    test_set = data[split_point:]
+
+    forecast = pd.Series([data[t-1] for t in range(split_point, len(data))],
+        index=test_set.index, name='value')
+    upper_bound = forecast * 1.20
+    upper_bound.name = 'upper bound'
+    lower_bound = forecast * 0.80
+    lower_bound.name = 'lower bound'
+    prediction = pd.DataFrame([forecast, upper_bound, lower_bound]).transpose()
 
     return TimeSeriesForecast('Internet Traffic Forecast', 'A exemplary \
         forecast of the internet traffic of a private ISP.', training_set,
-        forecast_data, test_data=test_set, validation_split=1120780799)
+        prediction, validation_split=1120780799)
 
 def load_internet_traffic_data_set():
     data = pd.read_csv('../datasets/internet-traffic-data.csv',
