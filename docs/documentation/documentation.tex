@@ -40,7 +40,7 @@
 
 This section contains a description of all used external dependencies (e.g. libraries) and why they were used in this project.
 The python dependencies can be installed using \texttt{pip}, the Python package manager, using the \texttt{requirements.txt} file. 
-It is recommended to use a virtual environments when developing for this project to avoid conflicts with other system-wide installed versions of the same dependencies.
+It is recommended to use a virtual environment when developing for this project to avoid conflicts with other system-wide installed versions of the same dependencies.
 
 
 \subsection{Back-end (Python)}
@@ -66,9 +66,12 @@ It is recommended to use a virtual environments when developing for this project
 \subsection{Front-end (HTML5)}
 
 \begin{description}
- \item[jQuery]
- \item[MetricsGraphics.js]
- \item[Bootstrap]
+ \item[jQuery] jQuery is the feature rich JavaScript library to simplify client-side scripting. 
+ In this project it is mainly used for AJAX calls.
+ \item[MetricsGraphics.js] MetricsGraphics.js is used to render the time series visualizations.
+ It is based on the well-known D3.js graphic library and provides all necessary primitives and features to plot the required figures.
+ \item[Bootstrap] This CSS framework is used to for its beautiful design templates to provide a familiar and responsive user interface.
+ Furthermore, some bootstrap add-ons were used for additional widgets (e.g. the bootstrap datetime picker).
 \end{description}
 
 
