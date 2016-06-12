@@ -36,7 +36,7 @@
 \end{itemize}
  
 
-\section{Dependencies} \label{sec:dependencies}
+\section{Dependencies}\label{sec:dependencies}
 
 This section contains a description of all used external dependencies (e.g. libraries) and why they were used in this project.
 The python dependencies can be installed using \texttt{pip}, the Python package manager, using the \texttt{requirements.txt} file. 
@@ -74,5 +74,57 @@ It is recommended to use a virtual environment when developing for this project 
  Furthermore, some bootstrap add-ons were used for additional widgets (e.g. the bootstrap datetime picker).
 \end{description}
 
+
+\section{Modules}\label{sec:modules}
+
+\subsection{APP}
+This module simply creates the Flask object and resisters the routes for the front-end and for the API.
+The Flask object must be used to start timeline using the \texttt{run} method of the app object. 
+The source code is located in the \texttt{app.py} file.
+
+\subsection{API}
+The task of this module is to take requests from the front-end in form of AJAX calls and return the visualization primitives for the MetricsGraphics.js library as JSON objects.
+The source code is located in the \texttt{api.py} file.
+
+\subsubsection*{Time Series Plot: \texttt{api/time\_plot/\{time\_series\_id\}}}
+\begin{itemize}
+ \item[] \textbf{Method:} GET 
+ \item[] \textbf{Description:} This route create the visualization primitive for a simple time plot (i.e. a time plot of only one time series).
+ It takes the identifier of the time series as part of the URL (e.g. \texttt{api/time\_plot/42}) and can take additional parameter.
+ It may return a HTTP status code 404 if no time series with the given identifier exists and a HTTP status code 400 for invalid values for the optional GET parameter.
+ \item[] \textbf{Additional Parameter:} All of the following parameter are optional.
+ It is possible to only retrieve a slice of the time series using the \texttt{start\_date} and/or \texttt{end\_date} parameter.
+ Each of this parameter must be an integer, which represents to UNIX time stamp of the start time of the slice and the end time of the slice, respectively. 
+ Additional it is possible to add the graphs of the rolling mean and/or the rolling standard deviation to the plot.
+ The \texttt{rolling\_mean\_window} and \texttt{rolling\_std\_window} parameter must be integer that represent the number of samples that is used to calculate the running mean and standard deviation, respectively.
+\end{itemize}
+
+\subsubsection*{Time Series Plots: \texttt{api/time\_plots}}
+\begin{itemize}
+ \item[] \textbf{Method:} GET 
+ \item[] \textbf{Parameter:} list of time series ids
+ \item[] \textbf{Description:} 
+\end{itemize}
+
+\subsubsection*{Live Time Series Plot: \texttt{api/live\_plot/\{live\_time\_series\_id\}}}
+\begin{itemize}
+ \item[] \textbf{Method:} GET 
+ \item[] \textbf{Parameter:} last received
+ \item[] \textbf{Description:} 
+\end{itemize}
+
+\subsubsection*{ACF Plot: \texttt{api/acf\_plot/\{time\_series\_id\}}}
+\begin{itemize}
+ \item[] \textbf{Method:} GET 
+ \item[] \textbf{Parameter:} max lag, scale
+ \item[] \textbf{Description:} 
+\end{itemize}
+
+\subsubsection*{Forecasting Plot: \texttt{api/forecasting\_plot/\{forecast\_id\}}}
+\begin{itemize}
+ \item[] \textbf{Method:} GET 
+ \item[] \textbf{Parameter:} none
+ \item[] \textbf{Description:} 
+\end{itemize}
 
 \end{document}

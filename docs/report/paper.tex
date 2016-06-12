@@ -149,6 +149,8 @@ The following list contains three representative examples in no particular order
 
 This kind of data sets with an temporal importance are usually referred to as time series (\ie two- or higher-dimensional data with time as one dimension). 
 A more formal definition \cite{Cortez2012} of a time series \(\{Y\}_t\) is a time ordered collection of observations \((y_1, y_2, \ldots, y_n)\).
+This implies two trivial consequences. 
+First, the samples in the time series are ordered, and second, privious observations may influcence future values but never the other way around.
 A element of the time series recorded at time or period \(t\), denoted as \(y_t\), can either be a scalar value or a vector.
 Time series of scalars are denoted as \emph{univariate} times series, whereas a time series of higher dimensional data is called a \emph{multivariate} time series.
 For this project we only focused on univariate time series data and refer to to them simply as time series in the context of this paper.
