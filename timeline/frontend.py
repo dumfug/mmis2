@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 from flask import Blueprint, render_template
-from data_sets import (
+from .data_sets import (
     get_data_set, get_live_data_set, get_forecast, get_all_data_sets,
     get_all_live_data_sets, get_all_forecasts
 )

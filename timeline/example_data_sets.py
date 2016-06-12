@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 
+import os
 import threading
 import datetime
 import time
 import pandas as pd
 import numpy as np
-from data_sets import TimeSeries, LiveTimeSeries, TimeSeriesForecast
+from .data_sets import TimeSeries, LiveTimeSeries, TimeSeriesForecast
 
+
+def _get_example_data_set_path():
+    this_dir, this_filename = os.path.split(__file__)
+    return os.path.join(this_dir, 'datasets', 'internet-traffic-data.csv')
 
 class LiveRandomData(LiveTimeSeries):
     def __init__(self):
@@ -32,8 +37,8 @@ def generate_random_live_data_set():
     return LiveRandomData()
 
 def generate_internet_traffic_forecast():
-    data = pd.read_csv('../datasets/internet-traffic-data.csv',
-        parse_dates='Time', index_col='Time')
+    data = pd.read_csv(
+        _get_example_data_set_path(), parse_dates='Time', index_col='Time')
     data = data / 8 / 2**30  # convert bits into GB
     data = data['Internet traffic data (in bits)']
 
@@ -54,9 +59,9 @@ def generate_internet_traffic_forecast():
         prediction, validation_split=1120780799)
 
 def load_internet_traffic_data_set():
-    data = pd.read_csv('../datasets/internet-traffic-data.csv',
-        parse_dates='Time', index_col='Time')
-    data = data / 8 / 2**30 # convert bits into GB
+    data = pd.read_csv(
+        _get_example_data_set_path(), parse_dates='Time', index_col='Time')
+    data = data / 8 / 2**30  # convert bits into GB
     data.rename(columns={'Internet traffic data (in bits)':
                          'Internet traffic data (in GB)'}, inplace=True)
 
