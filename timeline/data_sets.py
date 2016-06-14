@@ -54,6 +54,32 @@ class TimeSeries(object):
         self.data = ts
         self.legend = name if legend is None else legend
 
+    @property
+    def number_of_samples(self):
+        return len(self.data)
+
+    @property
+    def start_date(self):
+        return self.data.keys()[0]
+
+    @property
+    def end_date(self):
+        return self.data.keys()[-1]
+
+    @property
+    def period(self):
+        firstPeriod = self.data.keys()[1] - self.data.keys()[0]
+        i = 1
+
+        while i < len(self.data.keys()) - 1:
+            period = self.data.keys()[i + 1] - self.data.keys()[i]
+            i += 1
+
+            if period != firstPeriod:
+                return "non periodic"
+
+        return period
+
 class LiveTimeSeries(TimeSeries):
     def __init__(self, name, description, legend=None):
         TimeSeries.__init__(self, name, description, pd.Series(), legend=legend)
