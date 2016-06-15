@@ -81,15 +81,12 @@ var live_plot = function(event) {
 };
 
 var acf_plot = function(event) {
-    var get_params = {
-        'max_lag': 300,
-        'scale': true
-    };
+    var params = event.data;
 
-    $.getJSON($SCRIPT_ROOT + '/api/acf_plot/0', get_params, function(viz) {
-        viz.width = 800;
+    $.getJSON($SCRIPT_ROOT + '/api/acf_plot/' + params.id, params, function(viz) {
+        viz.full_width = true;
         viz.height = 400;
-        viz.target = $('#acf-plot-canvas')[0];
+        viz.target = $(params.target)[0];
         viz.legend_target = '.legend';
         viz.y_mouseover = '+.2r';
 
