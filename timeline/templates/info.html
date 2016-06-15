@@ -135,12 +135,14 @@
       'height': 500
     };
 
-    if(document.getElementById('mean_checkbox').checked) {
-      params['rolling_mean_window'] = document.getElementById('mean_text').value;
+    var mean_text = document.getElementById('mean_text').value;
+    if(document.getElementById('mean_checkbox').checked && mean_text.length !== 0) {
+      params['rolling_mean_window'] = mean_text;
     }
 
-    if(document.getElementById('std_checkbox').checked) {
-      params['rolling_std_window'] = document.getElementById('std_text').value;
+    var std_text = document.getElementById('std_text').value;
+    if(document.getElementById('std_checkbox').checked && (std_text.length !== 0) && (parseInt(std_text) > 0)) {
+      params['rolling_std_window'] = std_text;
     }
 
     if(document.getElementById('start_checkbox').checked && start_date !== null) {
@@ -162,8 +164,9 @@
       'max_lag': 200
     };
 
-    if(document.getElementById('lag_checkbox').checked) {
-      params['max_lag'] = document.getElementById('lag_text').value;
+    var lag_text = document.getElementById('lag_text').value;
+    if(document.getElementById('lag_checkbox').checked && (lag_text.length !== 0) && (parseInt(lag_text) > 1)) {
+      params['max_lag'] = lag_text;
     }
     params['scale'] = document.getElementById('scale_checkbox').checked;
 
