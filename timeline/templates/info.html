@@ -28,7 +28,7 @@
             <span class="input-group-addon">
               <input type="checkbox" id="mean_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
             </span>
-            <input type="text" id="mean_text" class="form-control" aria-label="...">
+            <input type="text" id="mean_text" class="form-control" aria-label="..." onkeypress="return isNumber(event)">
           </div><!-- /input-group -->
         </div>
 
@@ -38,7 +38,7 @@
             <span class="input-group-addon">
               <input type="checkbox" id="std_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
             </span>
-            <input type="text" id="std_text" class="form-control" aria-label="...">
+            <input type="text" id="std_text" class="form-control" aria-label="..." onkeypress="return isNumber(event)">
           </div><!-- /input-group -->
         </div>
 
@@ -81,12 +81,11 @@
             <span class="input-group-addon">
               <input type="checkbox" id="lag_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
             </span>
-            <input type="text" id="lag_text" class="form-control" aria-label="...">
+            <input type="text" id="lag_text" class="form-control" aria-label="..." onkeypress="return isNumber(event)">
           </div>
+          <label class="checkbox-inline"><input type="checkbox" id="scale_checkbox" value="">scale</label>
         </div>
-
-        <label class="checkbox-inline"><input type="checkbox" value="">scale</label>
-        <button type="button" id="btn_update_time_series" class="btn btn-default">Update</button>
+        <button type="button" id="btn_update_acf" class="btn btn-default">Update</button>
       </div>
     </div>
 
@@ -95,15 +94,32 @@
 
 <script type="text/javascript">
 
+  function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+  };
+
   function toggleCheckbox(element) {
     if(element.id === "mean_checkbox") {
       $('#mean_text').prop("disabled", !element.checked);
     } else if (element.id === "std_checkbox") {
       $('#std_text').prop("disabled", !element.checked);
     } else if (element.id === "start_checkbox") {
+      if(!element.checked) {
+        $("#end_date").data("DateTimePicker").minDate(new Date('{{data_set.start_date}}'));
+      }
       $('#start_date').prop("disabled", !element.checked);
     } else if (element.id === "end_checkbox") {
+      if(!element.checked) {
+        $("#start_date").data("DateTimePicker").maxDate(new Date('{{data_set.end_date}}'));
+      }
       $('#end_date').prop("disabled", !element.checked);
+    } else if (element.id === "lag_checkbox") {
+      $('#lag_text').prop("disabled", !element.checked);
     }
   };
 
@@ -138,19 +154,43 @@
     time_plot({'data': params});
   });
 
+  $('#btn_update_acf').click( function(event) {
+    var params = {
+      'id': '{{ data_set.id }}',
+      'target': '#acf-plot-canvas',
+      'height': 500,
+      'max_lag': 200
+    };
+
+    if(document.getElementById('lag_checkbox').checked) {
+      params['max_lag'] = document.getElementById('lag_text').value;
+    }
+    params['scale'] = document.getElementById('scale_checkbox').checked;
+
+    show_empty_plot('#acf-plot-canvas', 'loading');
+    acf_plot({'data': params});
+  });
+
   $('#mean_text').prop("disabled", true);
   $('#std_text').prop("disabled", true);
   $('#start_date').prop("disabled", true);
   $('#end_date').prop("disabled", true);
+  $('#lag_text').prop("disabled", true);
 
   $('#start_date').datetimepicker();
+  $('#end_date').datetimepicker();
+
+  $('#start_date').on('dp.change', function() {
+    $("#end_date").data("DateTimePicker").minDate(new Date($(this).val()));
+  });
   $("#start_date").data("DateTimePicker").minDate(new Date('{{data_set.start_date}}'));
-  $("#start_date").data("DateTimePicker").maxDate(new Date('{{data_set.end_date}}'));
   $("#start_date").data("DateTimePicker").date(new Date('{{data_set.start_date}}'));
 
 
-  $('#end_date').datetimepicker();
-  $("#end_date").data("DateTimePicker").minDate(new Date('{{data_set.start_date}}'));
+  $('#end_date').on('dp.change', function() {
+    $("#start_date").data("DateTimePicker").maxDate(new Date($(this).val()));
+    $('#end_date').data("DateTimePicker").hide();
+  });
   $("#end_date").data("DateTimePicker").maxDate(new Date('{{data_set.end_date}}'));
   $("#end_date").data("DateTimePicker").date(new Date('{{data_set.end_date}}'));
 
@@ -164,14 +204,12 @@
     'id': '{{ data_set.id }}',
     'target': '#acf-plot-canvas',
     'height': 500,
-    'max_lag': 200,
-    'scale': false
+    'max_lag': 200
   };
 
     show_empty_plot('#time-plot-canvas', 'loading');
     time_plot({'data': params_time_plot});
     show_empty_plot('#acf-plot-canvas', 'loading');
-    acf_plot({'data': params_acf_plot}); // TODO: handle params in function correctly
-    // and move show empty plot calls into the functions
+    acf_plot({'data': params_acf_plot});
 </script>
 {% endblock %}
