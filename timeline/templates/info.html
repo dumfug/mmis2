@@ -144,18 +144,34 @@
   $('#end_date').prop("disabled", true);
 
   $('#start_date').datetimepicker();
-  $('#end_date').datetimepicker();
+  $("#start_date").data("DateTimePicker").minDate(new Date('{{data_set.start_date}}'));
+  $("#start_date").data("DateTimePicker").maxDate(new Date('{{data_set.end_date}}'));
+  $("#start_date").data("DateTimePicker").date(new Date('{{data_set.start_date}}'));
 
-  var params = {
+
+  $('#end_date').datetimepicker();
+  $("#end_date").data("DateTimePicker").minDate(new Date('{{data_set.start_date}}'));
+  $("#end_date").data("DateTimePicker").maxDate(new Date('{{data_set.end_date}}'));
+  $("#end_date").data("DateTimePicker").date(new Date('{{data_set.end_date}}'));
+
+  var params_time_plot = {
     'id': '{{ data_set.id }}',
     'target': '#time-plot-canvas',
     'height': 500
   };
 
+  var params_acf_plot = {
+    'id': '{{ data_set.id }}',
+    'target': '#acf-plot-canvas',
+    'height': 500,
+    'max_lag': 200,
+    'scale': false
+  };
+
     show_empty_plot('#time-plot-canvas', 'loading');
-    time_plot({'data': params});
+    time_plot({'data': params_time_plot});
     show_empty_plot('#acf-plot-canvas', 'loading');
-    acf_plot({'data': params}); // TODO: handle params in function correctly
+    acf_plot({'data': params_acf_plot}); // TODO: handle params in function correctly
     // and move show empty plot calls into the functions
 </script>
 {% endblock %}
