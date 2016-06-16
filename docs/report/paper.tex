@@ -125,7 +125,7 @@ pdfstartview=Fit
 
 \begin{abstract}
 In this paper a web-based visualization platform for time series data is proposed. 
-It is not only able to represent static temporal data and it properties but also data from live sources, such as sensors. 
+It is not only able to represent static temporal data and its properties, but also data from live sources, such as sensors. 
 Furthermore, it allows the visualization of the output of time series prediction methods.
 The main aspects of this paper are the overall design, the use cases, and the outlook for possible enhancements of the application.
 \end{abstract}
@@ -137,7 +137,7 @@ The main aspects of this paper are the overall design, the use cases, and the ou
 
 In today's society data plays a import role in many different ways.
 For instance, businesses are using large amount of data to predict consumer behavior to satisfy their demand, or rely on it for operations entirely.
-Often time plays a essential role in these real-world data sets and applications. 
+Often time plays a essential role in these real-world data sets and its applications. 
 The following list contains three representative examples in no particular order:
 
 \begin{enumerate}
@@ -152,19 +152,19 @@ The following list contains three representative examples in no particular order
 \end{enumerate}
 
 
-This kind of data sets with an temporal importance are usually referred to as time series (\ie two- or higher-dimensional data with time as one dimension). 
+This kind of data set with an temporal importance is usually referred to as time series (\ie two- or higher-dimensional data with time as one dimension). 
 A more formal definition \cite{Cortez2012} of a time series \(\{Y\}_t\) is a time ordered collection of observations \((y_1, y_2, \ldots, y_n)\).
 This implies two trivial consequences. 
 First, the samples in the time series are ordered, and second, previous observations may influence future values but never the other way around.
-A element of the time series recorded at time or period \(t\), denoted as \(y_t\), can either be a scalar value or a vector.
+A element of the time series, recorded at time or period \(t\), denoted as \(y_t\), can either be a scalar value or a vector.
 Time series of scalars are denoted as \emph{univariate} times series, whereas a time series of higher dimensional data is called a \emph{multivariate} time series.
 For this project we only focused on univariate time series data and refer to to them simply as time series in the context of this paper.
 
-When dealing with time series usually one of the first steps in the analysis process is the visualization of the data.
+When dealing with time series, usually one of the first steps in the analysis process is the visualization of the data.
 The graphical representation can already give some great insights in properties and characteristics of the data.
-For example, a simple visual inspection can show patterns, trends or seasonal effects without the use of advanced statistical methods. 
-These properties are important since they have to be considered in the modeling of the time series.
-One example for a statistical forecasting model that requires knowledge of the seasonal and stationary properties of a data set is the Box--Jenkins \cite{Box1976} model.
+For example, a simple visual inspection can show patterns, trends, and seasonal effects without the use of advanced statistical methods. 
+These properties are important since they have to be considered in the modeling process.
+One example for a statistical forecasting model, that requires knowledge of the seasonal and stationary properties of a data set, is the Box--Jenkins \cite{Box1976} model.
 
 The goal of our project is it to create a web-based platform that allows the user to perform this initial visual inspection of the time series in a convenient but sophisticated way.
 This includes, of course, the possibility to create simple time series plots (\ie visualizations that plot the data against the time) but also more advanced plots such as the auto-correlation function (ACF) plot.
@@ -172,14 +172,14 @@ Another goal is the support of a quick and responsive visualization of forecasts
 This means that is should be possible to quickly inspect the deviation of the prediction from the actual test data including a confidence band.
 
 The rest of the paper is structured as follows. 
-\Cref{sec:solution} contains a detailed description of our platform, used algorithms and overall design.
+\Cref{sec:solution} contains a detailed description of our platform, used algorithms, and overall design.
 \Cref{sec:conclusion} contains the conclusion of the project and a discussion of possible future work and improvements.
 
 
 \section{Solution}\label{sec:solution}
 
-In the first step of our design process was the task to decide what types of data sets should be supported by our web-based platform.
-We decided that the following types are sufficient for the most time series analysis tasks:
+The first step of our design process was the task to decide what types of data sets should be supported by our web-based platform.
+We decided that the following types are sufficient for the most common time series analysis tasks:
 
 \begin{enumerate}
  \item A simple time series data set. This consist mainly of a time indexed collection of scalar data points and meta data.
@@ -204,7 +204,7 @@ Our first idea was that the platform should be a standalone application.
 However, in our opinion, this causes some major usability and implementation issues.
 First, there is no nice and easy way to import the three different types data sets at the startup time from files.
 It would be very hard to specify a data format that can be utilized by all three data set types.
-For example, most of the real-world data sets are usually stored in the form form of \texttt{.csv} files.
+For example, most of the real-world data sets are stored in the form form of \texttt{.csv} files.
 These typically do not allow the storage of additional meta information, at least not without special parsing rules.
 Furthermore, the live data sets would require a description of the live data source (\eg a socket) in some way and the forecasting data sets would either require multiple data files (\ie one for the training set, test set, and the prediction) or one file with multiple disjoint sections.
 
@@ -226,7 +226,7 @@ We anticipate more or less the following workflow with \texttt{timeline} and des
  \item In the last step he or she can start the \texttt{timeline} web-service on a specific port and can visit the web-interface to view all available visualizations and other information.
 \end{enumerate}
 
-The usage of the platform as library also allows a simpler integration of live data sources by simply wrapping the data steam into a class that implements all required live data set methods and the possibility to simply include data sets from other web resources (\eg from a website that publishes stock market data).
+The usage of the platform as library also allows a simpler integration of live data sources by simply wrapping the data stream into a class that implements all required live data set methods and the possibility to simply include data sets from other web resources (\eg from a website that publishes stock market data).
 Altogether we think that this design choice supports a more natural and quicker workflow with the platform.
 
 Additionally, there are also some example data sets in the library available.
@@ -246,9 +246,9 @@ The visualization primitives that can be generated by the platform are the follo
  
  \item A extended version of the simple time series plot that works in the conjunction with live data sets such that it can be updated dynamically. 
  
- \item A autocorrelation plot \cite{Box1976}, also known as autocorrelation function (ACF) plot, which are a statistical tool to proof seasonal effects in the data. 
+ \item A autocorrelation plot \cite{Box1976}, also known as autocorrelation function (ACF) plot, which is a statistical tool to proof seasonal effects in the data. 
  
- \item A forecast evaluation plot, that can be used to inspect the performance a time series prediction method. 
+ \item A forecast evaluation plot, that can be used to inspect the performance of a time series prediction method. 
  It is a extended version of the simple time series plot as well, which shows the multiple parts of the forecast data set in one plot. 
 \end{enumerate}
 
@@ -259,7 +259,7 @@ The application user interface uses the responsive Bootstrap \cite{Bootstrap} fr
 
 \section{Conclusion and Outlook}\label{sec:conclusion}
 
-Like in most other projects, there is a lot room for potential improvements and possible feature work.
+Like in most other projects, there is a lot room for potential improvements and possible future work.
 One constraint, due to the implementation of the framework, is that it only can handle dates and time stamps in a resolution of seconds.
 This is caused by the fact that all date and time related parameters are encoded using the UNIX time stamp (\ie the number of seconds since midnight January 1, 1970 UTC) before they are sent from the front-end to the back-end and vice versa.
 This is required since dates are often part of URLs, for example, in API requests.
@@ -268,7 +268,7 @@ This could be problematic, especially for real-time applications, where events u
 However, there are potential solutions for this issue.
 For example, one option would be to encode dates as milliseconds since January 1, 1970 or a more general, and probable better, solution would be the usage of a well-defined date time format that allows the reliable parsing of dates from strings, which could be transmitted instead of the UINIX time stamp integers.
 
-Another possibility for feature work would be the creation of a Python package that can be uploaded to PyPI \cite{PyPI}, the Python package index.
+Another possibility for future work would be the creation of a Python package that can be uploaded to PyPI \cite{PyPI}, the Python package index.
 This would require to write a installer using the Python \texttt{setuptools} module. 
 Furthermore, the number of available visualizations is quite small at the time, and the existing plots could be more interactive (\eg brushing).
 There are plenty of other plots that could be integrated into the platform, for example, seasonality plots.
