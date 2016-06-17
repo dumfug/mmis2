@@ -5,7 +5,7 @@ var last_date;
 var live_viz;
 
 function time_plot(target_id, params) {
-    show_empty_plot(target_id, 'loading');
+    show_empty_plot(target_id, 'loading...');
 
     $.getJSON($SCRIPT_ROOT + '/api/time_plot/' + params.id, params, function(viz) {
         convert_data_array(viz);
@@ -67,7 +67,7 @@ function resetParams() {
 }
 
 function live_plot(target_id, params) {
-        show_empty_plot(target_id, 'loading');
+        show_empty_plot(target_id, 'loading...');
 
         var route = $SCRIPT_ROOT + '/api/live_plot/' + params.id;
         $.getJSON(route, function(viz) {
@@ -122,7 +122,7 @@ function activateLiveUpdate(route, viz, interval) {
 };
 
 function acf_plot(target_id, params) {
-    show_empty_plot(target_id, 'loading');
+    show_empty_plot(target_id, 'loading...');
 
     $.getJSON($SCRIPT_ROOT + '/api/acf_plot/' + params.id, params, function(viz) {
         viz.full_width = true;
@@ -138,7 +138,7 @@ function acf_plot(target_id, params) {
 };
 
 function forcasting_eval_plot(target_id, params) {
-    show_empty_plot(target_id, 'loading');
+    show_empty_plot(target_id, 'loading...');
 
     $.getJSON($SCRIPT_ROOT + '/api/forecasting_plot/' + params.id, function(viz) {
         convert_data_array(viz);
