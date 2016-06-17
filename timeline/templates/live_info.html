@@ -8,7 +8,6 @@
     <h2>Information</h2>
     <ul class="list-group">
       <li class="list-group-item"><b>Description:</b> {{data_set.description}} </li>
-      <li class="list-group-item"><b>Period:</b> {{data_set.period}} </li>
     </ul>
     </div>
 
@@ -58,11 +57,31 @@
   };
 
   function toggleCheckbox(element) {
+    var params = {};
+
     if(element.id === "max_size_checkbox") {
+      if(element.checked) {
+        var max_size_text = document.getElementById('max_size_text').value;
+        if(max_size_text.length !== 0 && (parseInt(max_size_text) > 1)) {
+          params['max_size'] = parseInt(max_size_text);
+        }
+      } else {
+        params['max_size'] = -10;
+      }
       $('#max_size_text').prop("disabled", !element.checked);
+
     } else if (element.id === "time_delta_checkbox") {
+      if(element.checked) {
+        var time_delta_text = document.getElementById('time_delta_text').value;
+        if(time_delta_text.length !== 0 && (parseInt(time_delta_text) > 2)) {
+          params['time_delta'] = parseInt(time_delta_text);
+        }
+      } else {
+        params['time_delta'] = 30;
+      }
       $('#time_delta_text').prop("disabled", !element.checked);
     }
+    updateLiveUpdate(params);
   };
 
   $('#btn_update_time_series').click(function(event) {
@@ -70,12 +89,12 @@
 
     var max_size_text = document.getElementById('max_size_text').value;
     if(document.getElementById('max_size_checkbox').checked && max_size_text.length !== 0 && (parseInt(max_size_text) > 1)) {
-      params['max_size'] = max_size_text;
+      params['max_size'] = parseInt(max_size_text);
     }
 
     var time_delta_text = document.getElementById('time_delta_text').value;
     if(document.getElementById('time_delta_checkbox').checked && time_delta_text.length !== 0 && (parseInt(time_delta_text) > 2)) {
-      params['time_delta'] = time_delta_text;
+      params['time_delta'] = parseInt(time_delta_text);
     }
 
     updateLiveUpdate(params);
@@ -91,6 +110,10 @@
       button_text.data = "Stop";
     }
   });
+
+  window.onbeforeunload = function() {
+    resetParams();
+  }
 
   $('#max_size_text').prop("disabled", true);
   $('#time_delta_text').prop("disabled", true);

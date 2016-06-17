@@ -52,6 +52,20 @@ function stopLiveUpdate() {
         clearInterval(intervalId);
 }
 
+function startLiveUpdate(data_id) {
+        var route = $SCRIPT_ROOT + '/api/live_plot/' + data_id;
+        activateLiveUpdate(route, live_viz, 1000);
+}
+
+function resetParams() {
+        clearInterval(intervalId);
+        intervalId = undefined;
+        live_params = undefined;
+        data  = undefined;
+        last_date = undefined;
+        live_viz  = undefined;
+}
+
 function live_plot(target_id, params) {
         show_empty_plot(target_id, 'loading');
 
@@ -73,11 +87,6 @@ function live_plot(target_id, params) {
         show_empty_plot(target_id, 'sorry, an error occurred');
     });
 };
-
-function startLiveUpdate(data_id) {
-        var route = $SCRIPT_ROOT + '/api/live_plot/' + data_id;
-        activateLiveUpdate(route, live_viz, 1000);
-}
 
 function activateLiveUpdate(route, viz, interval) {
         intervalId = setInterval(function() {
@@ -107,8 +116,7 @@ function activateLiveUpdate(route, viz, interval) {
             }
             viz['data'][0].push.apply(viz['data'][0], new_data);
             MG.data_graphic(viz);
-        }).fail(function() {
-            show_empty_plot(target_id, 'sorry, an error occurred');
+            console.log(live_params);
         });
     }, interval);
 };
