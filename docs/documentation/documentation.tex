@@ -13,13 +13,6 @@
 \author{Manuel Haid \and Thomas Mauerhofer \and Matthias Wölbitsch}
 \title{\texttt{timeline} Documentation}
 
-% content:
-% it's about „Technical and code“ documentation (code)
-% Requirements
-% Libraries / frameworks used
-% Which step/code does what in detail
-% preferably with flow charts
-% One should be able to extend or adapt your code easily after reading your documentation
 
 \begin{document}
 
@@ -28,19 +21,13 @@
 
 \section{Introduction} \label{sec:intoduction}
 
-In this section we want to explain how to start our project.
+In this section we want to explain how to start a example that uses the \texttt{timeline} platform using vagrant.
 
-\begin{itemize}
-\item
-\textbf{go to the vagrant folder:} \texttt{cd vagrant/}
-\item
-\textbf{start vagrant:} \texttt{vagrant up} (the first time can take a long time, because of building the source)
-\item
-\textbf{start our program:} after vagrant has been started, you can access it from the outside with port 5000. 
-Start a browser and go to \texttt{http://localhost:5000/}
-\end{itemize}
-
-Now our example application should start and you can explore it.
+\begin{enumerate}
+\item Start vagrant using the \texttt{vagrant up} command.
+\item Get a cup of coffee, because the first startup requires the installation of some libraries from source and this may take a while.
+\item After that you can access the example from outside the vagrant box using port 5000 (i.e., open \url{http://localhost:5000/}).
+\end{enumerate}
 
 \section{Requirements} \label{sec:requirments}
 
@@ -52,7 +39,7 @@ Now our example application should start and you can explore it.
 \section{Dependencies}\label{sec:dependencies}
 
 This section contains a description of all used external dependencies (e.g. libraries) and why they were used in this project.
-The python dependencies can be installed using \texttt{pip}, the Python package manager, using the \texttt{requirements.txt} file. 
+The Python dependencies can be installed using \texttt{pip}, the Python package manager, using the \texttt{requirements.txt} file. 
 It is recommended to use a virtual environment when developing for this project to avoid conflicts with other system-wide installed versions of the same dependencies.
 
 
@@ -118,9 +105,9 @@ The source code is located in the \texttt{api.py} file.
 \subsubsection*{Time Series Plots: \texttt{api/time\_plots}}
 \begin{itemize}
  \item[] \textbf{Method:} GET 
- \item[] \textbf{Parameter:} list of time series ids
- \item[] \textbf{Description:} This route create the visualization primitive for a simple time plot (i.e. a time plot of all time series).
- It may return a HTTP status code 404 if one time series data doesn't exist.
+ \item[] \textbf{Parameter:} list of time series identifier
+ \item[] \textbf{Description:} This route creates the visualization primitive for a multi time series plot (i.e. a time plot of multiple time series).
+ It may return a HTTP status code 404 if one or more time series are not found in the data storage.
 \end{itemize}
 
 
@@ -129,8 +116,8 @@ The source code is located in the \texttt{api.py} file.
  \item[] \textbf{Method:} GET 
  \item[] \textbf{Parameter:} last received
  \item[] \textbf{Description:} This route create the visualization primitive for a simple live time plot.
- The first request from this function is without an parameter, because it only gets the data. These function with the optional 
- parameter \texttt{last\_received} signaled only an update from the data.
+ The first request to this route must not contain the \texttt{last\_received} parameter, which is a UNIX time stamp.
+ All other requests on the same URL should contain this parameter to only obtain a update on the time series data. 
  It may return a HTTP status code 404 if no time series with the given identifier exists.
 \end{itemize}
 
@@ -139,10 +126,11 @@ The source code is located in the \texttt{api.py} file.
 \begin{itemize}
  \item[] \textbf{Method:} GET 
  \item[] \textbf{Parameter:} max lag, scale
- \item[] \textbf{Description:} This route create the visualization primitive for a simple acf plot.
+ \item[] \textbf{Description:} This route creates the visualization primitive for a autocorrelation function plot.
  It may return a HTTP status code 404 if no time series with the given identifier exists and a HTTP status code 400 for invalid values for the optional GET parameter.
- It is possible to only retrieve a slice of the time series using the \texttt{max\_lag} parameter. The parameter must be an integer.
- The second parameter \texttt{scale} is optional, if it is null, the plot will be autoscaled.
+ The \texttt{max\_lag} parameter is required. It determines the number of autocorrelations offsets that should be included into the plot.
+ The parameter must be an integer.
+ The second parameter \texttt{scale} is optional, if it is null, the y-axis of the plot will be scaled automatically.
 \end{itemize}
 
 
@@ -156,15 +144,15 @@ The source code is located in the \texttt{api.py} file.
 
 
 \subsection{DATA SETS}
-The task of this module is, to define the class that describes the data sets for the time series, live data and forecast data.
-It also has functions to add and get the data from the right classes like described below.
+The task of this module is, to define the classes that describe the data sets for the time series, live data and forecast data.
+It also has functions to add and get the data sets from the from the storage.
 The source code is located in the \texttt{data\_sets.py} file.
 
 
 \subsubsection*{Class TimeSeries:}
 \begin{itemize}
- \item[] \textbf{Description:} The member variables from the class TimeSeries are the autogenerated id, a name, a description, the data and optional the legend. 
- It also has functions to get several informations like the number of samples, the start date, the end date and the period.
+ \item[] \textbf{Description:} The member variables from the class TimeSeries are the auto-generated id, a name, a description, the data and optional the legend. 
+ It also has functions to get information like the number of samples, the start date, the end date and the period.
 \end{itemize}
 
 
@@ -183,7 +171,7 @@ The source code is located in the \texttt{data\_sets.py} file.
 
 \subsubsection*{Register Data Sets:}
 \begin{itemize}
- \item[] \textbf{Description:} In this section, we have three functions to add the data sets to the \texttt{time\_series}, \texttt{live\_time\_series} or \texttt{forecast} dictionaries.
+ \item[] \textbf{Description:} In this section, we have three functions to add the data sets to the \texttt{time\_series}, \texttt{live\_time\_series} or \texttt{forecast} dictionaries for storage.
 \end{itemize}
 
 
@@ -195,17 +183,17 @@ The source code is located in the \texttt{data\_sets.py} file.
 
 
 \subsection{FRONT END}
-The task of this module is to render the different html templates, for example the info.html, index.html, multi\_time\_plots.html, live\_info.html, etc.
+The task of this module is to render the different HTML templates of the user interface (for example, the info.html, index.html, multi\_time\_plots.html, live\_info.html, etc).
 
 
 \subsection{VISUALIZATION}
-The task of this module is to build the data so that the visualization library in the front end can show it.
+The task of this module is to build the visualization objects so that the visualization library in the front end can render it.
 The source code is located in the \texttt{visualizations.py} file.
 
 
 \subsubsection*{Time Series Plot:}
 \begin{itemize}
- \item[] \textbf{Description:} This function generate the data to visualize a simple time series plot, with the optional parameter start and end date.
+ \item[] \textbf{Description:} This function generates the visualization object for a time series plots, with the optional parameter start and end date.
 An optional feature is, that if the data set is a list, multiple data sets will be used, otherwise only one data set will be used.
 Afterwards the title will be set and we return a object with a title, the x accessor, the date, the y accessor, the value,
 the data and the legend.
@@ -214,34 +202,34 @@ the data and the legend.
 
 \subsubsection*{Add Rolling Mean:}
 \begin{itemize}
- \item[] \textbf{Description:} This function adds a rolling mean line to the existing plot. 
+ \item[] \textbf{Description:} This function adds a rolling mean line to the existing time series plot. 
  We calculate the rolling mean and add the data object with the data and the legend to the existing data set.
 \end{itemize}
 
 
 \subsubsection*{Add Rolling Std:}
 \begin{itemize}
- \item[] \textbf{Description:} This function adds a rolling standard deviation to the existing plot. 
+ \item[] \textbf{Description:} This function adds a rolling standard deviation to the existing time series plot. 
  We calculate the rolling standard deviation and add the data object with the data and the legend to the existing data set.
 \end{itemize}
 
 
 \subsubsection*{Auto Correlation Plot:}
 \begin{itemize}
- \item[] \textbf{Description:} This function generates an auto correlation for an existing data set. The \texttt{max\_lag} parameter 
+ \item[] \textbf{Description:} This function generates an auto correlation visualization primitive for an existing data set. The \texttt{max\_lag} parameter 
  describes the max number of correlation steps.
 \end{itemize}
 
 
 \subsubsection*{Forecasting Eval Plot:}
 \begin{itemize}
- \item[] \textbf{Description:} This function generates the visualisation primitives.
+ \item[] \textbf{Description:} This function generates the visualization primitive for the forecast evaluation plot.
 \end{itemize}
 
 
 \subsubsection*{Build Data Object:}
 \begin{itemize}
- \item[] \textbf{Description:} This function converts the time series data to the right format, so that the visualization library can use it. The object consists of a date and a value.
+ \item[] \textbf{Description:} This function converts the time series data to the right format, so that the visualization library can use it.
 \end{itemize}
 
 \end{document}
