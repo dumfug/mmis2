@@ -79,11 +79,9 @@
 
         <div id='first_param' class="param">
         <p>maximum lag</p>
+        <input type="text" id="lag_text" class="form-control" aria-label="..." onkeypress="return isNumber(event)">
           <div class="input-group">
-            <span class="input-group-addon">
-              <input type="checkbox" id="lag_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
-            </span>
-            <input type="text" id="lag_text" class="form-control" aria-label="..." onkeypress="return isNumber(event)">
+
           </div>
           <label class="checkbox-inline"><input type="checkbox" id="scale_checkbox" value="">auto-scale</label>
         </div>
@@ -122,8 +120,6 @@
         $("#start_date").data("DateTimePicker").maxDate(new Date('{{data_set.end_date}}'));
       }
       $('#end_date').prop("disabled", !element.checked);
-    } else if (element.id === "lag_checkbox") {
-      $('#lag_text').prop("disabled", !element.checked);
     }
   };
 
@@ -163,19 +159,19 @@
     };
 
     var lag_text = document.getElementById('lag_text').value;
-    if(document.getElementById('lag_checkbox').checked && (lag_text.length !== 0) && (parseInt(lag_text) > 1)) {
+    if(lag_text.length !== 0 && parseInt(lag_text) > 1) {
       params['max_lag'] = lag_text;
+      params['scale'] = !document.getElementById('scale_checkbox').checked;
+      acf_plot('#acf-plot-canvas', params);
+    } else {
+      show_empty_plot('#acf-plot-canvas', 'Please enter a valid lag greater 1!');
     }
-    params['scale'] = !document.getElementById('scale_checkbox').checked;
-
-    acf_plot('#acf-plot-canvas', params);
   });
 
   $('#mean_text').prop("disabled", true);
   $('#std_text').prop("disabled", true);
   $('#start_date').prop("disabled", true);
   $('#end_date').prop("disabled", true);
-  $('#lag_text').prop("disabled", true);
 
   $('#start_date').datetimepicker();
   $('#end_date').datetimepicker();
@@ -196,11 +192,6 @@
 
   var params_time_plot = {
     'id': '{{ data_set.id }}'
-  };
-
-  var params_acf_plot = {
-    'id': '{{ data_set.id }}',
-    'max_lag': 200
   };
 
   time_plot('#time-plot-canvas', params_time_plot);
