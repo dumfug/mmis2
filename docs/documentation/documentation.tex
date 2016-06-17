@@ -34,7 +34,7 @@ In this section we want to explain how to start our project.
 \item
 \textbf{go to the vagrant folder:} \texttt{cd vagrant/}
 \item
-\textbf{start vagrant:} \texttt{vagrant up}
+\textbf{start vagrant:} \texttt{vagrant up} (the first time can take a long time, because of the new downloaded and installed dependencies)
 \item
 \textbf{start our website:} start a browser and go to \texttt{http://localhost:5000/}
 \end{itemize}
@@ -89,10 +89,12 @@ It is recommended to use a virtual environment when developing for this project 
 
 \section{Modules}\label{sec:modules}
 
+
 \subsection{APP}
 This module simply creates the Flask object and resisters the routes for the front-end and for the API.
 The Flask object must be used to start timeline using the \texttt{run} method of the app object. 
 The source code is located in the \texttt{app.py} file.
+
 
 \subsection{API}
 The task of this module is to take requests from the front-end in form of AJAX calls and return the visualization primitives for the MetricsGraphics.js library as JSON objects.
@@ -111,6 +113,7 @@ The source code is located in the \texttt{api.py} file.
  The \texttt{rolling\_mean\_window} and \texttt{rolling\_std\_window} parameter must be integer that represent the number of samples that is used to calculate the running mean and standard deviation, respectively.
 \end{itemize}
 
+
 \subsubsection*{Time Series Plots: \texttt{api/time\_plots}}
 \begin{itemize}
  \item[] \textbf{Method:} GET 
@@ -118,6 +121,7 @@ The source code is located in the \texttt{api.py} file.
  \item[] \textbf{Description:} This route create the visualization primitive for a simple time plot (i.e. a time plot of all time series).
  It may return a HTTP status code 404 if no time series with the given identifier exists.
 \end{itemize}
+
 
 \subsubsection*{Live Time Series Plot: \texttt{api/live\_plot/\{live\_time\_series\_id\}}}
 \begin{itemize}
@@ -127,6 +131,7 @@ The source code is located in the \texttt{api.py} file.
  It may return a HTTP status code 404 if no time series with the given identifier exists.
  The \texttt{last\_received} parameter must be integer that represent the last received timestamp, the start date and the new data.
 \end{itemize}
+
 
 \subsubsection*{ACF Plot: \texttt{api/acf\_plot/\{time\_series\_id\}}}
 \begin{itemize}
@@ -138,6 +143,7 @@ The source code is located in the \texttt{api.py} file.
  It is possible to only retrieve a slice of the time series using the \texttt{max\_lag} parameter. The parameter must be an integer.
 \end{itemize}
 
+
 \subsubsection*{Forecasting Plot: \texttt{api/forecasting\_plot/\{forecast\_id\}}}
 \begin{itemize}
  \item[] \textbf{Method:} GET 
@@ -146,15 +152,18 @@ The source code is located in the \texttt{api.py} file.
  It may return a HTTP status code 404 if no time series with the given identifier exists.
 \end{itemize}
 
+
 \subsection{DATA SETS}
 The task of this module is to get the values for the time series, live data and forecast data and store it in their classes.
 The source code is located in the \texttt{data\_sets.py} file.
+
 
 \subsubsection*{Register Data Sets:}
 \begin{itemize}
  \item[] \textbf{Method:} ADD
  \item[] \textbf{Description:} In this section, we have three functions to add the data set to the \texttt{time\_series}, \texttt{live\_time\_series} or \texttt{forecast} dictionary.
 \end{itemize}
+
 
 \subsubsection*{Get Data Sets:}
 \begin{itemize}
@@ -163,11 +172,13 @@ The source code is located in the \texttt{data\_sets.py} file.
  There are functions to get one data set (with an id) or you can get all data sets.
 \end{itemize}
 
+
 \subsubsection*{class TimeSeries:}
 \begin{itemize}
  \item[] \textbf{Description:} The class TimeSeries needs an id, a name, a description, the data and the legend. 
  It also has functions to get several informations like the number of samples, the start date, the end date and the period.
 \end{itemize}
+
 
 \subsubsection*{class LiveTimeSeries:}
 \begin{itemize}
@@ -175,45 +186,58 @@ The source code is located in the \texttt{data\_sets.py} file.
  It also has functions to get and to update the data.
 \end{itemize}
 
+
 \subsubsection*{class TimeSeriesForecast:}
 \begin{itemize}
  \item[] \textbf{Description:} The class TimeSeriesForecast needs a name, a description, the training data, the forecasted data, the test data and the validation split.
 \end{itemize}
 
+
 \subsection{FRONT END}
 The task of this module is to render the different html templates.
 The source code is located in the \texttt{frontend.py} file.
+
 
 \subsection{VISUALIZATION}
 The task of this module is to visualize the data.
 The source code is located in the \texttt{visualizations.py} file.
 
-\subsubsection*{Time Series Plot}
+\subsubsection*{Time Series Plot:}
 \begin{itemize}
  \item[] \textbf{Description:} This function generate the data to visualize a simple time series plot, with no additional given start and end date.
+We iterate through all data from the data set, the title will be set and we return a object with a title, the x accessor, the date, the y accessor, the value,
+the data, and the legend.
 \end{itemize}
 
-\subsubsection*{Add Rolling Mean}
+
+\subsubsection*{Add Rolling Mean:}
 \begin{itemize}
- \item[] \textbf{Description:} This function generate the data to visualize a simple time series plot with an rolling mean.
+ \item[] \textbf{Description:} This function generate the data to visualize a simple time series plot with an rolling mean. 
+ We calculate the rolling mean and generate the data object with the data and the legend.
 \end{itemize}
 
-\subsubsection*{Add Rolling Std}
+
+\subsubsection*{Add Rolling Std:}
 \begin{itemize}
- \item[] \textbf{Description:} This function generate the data to visualize a simple time series plot with an rolling standard deviation.
+ \item[] \textbf{Description:} This function generate the data to visualize a simple time series plot with an rolling standard deviation. 
+ We calculate the rolling standard deviation and generate the data object with the data and the legend.
 \end{itemize}
 
-\subsubsection*{Auto Correlation Plot}
+
+\subsubsection*{Auto Correlation Plot:}
 \begin{itemize}
  \item[] \textbf{Description:} This function generate the data to visualize a auto correlation time series plot with the \texttt{max\_lag} parameter.
+ We iterate through all data from the data set in range from 1 to the \texttt{max\_lag} and generate the data object
 \end{itemize}
 
-\subsubsection*{Forecasting Eval Plot}
+
+\subsubsection*{Forecasting Eval Plot:}
 \begin{itemize}
  \item[] \textbf{Description:} This function generate the data to visualize a forecasting time series plot.
 \end{itemize}
 
-\subsubsection*{Build Data Object}
+
+\subsubsection*{Build Data Object:}
 \begin{itemize}
  \item[] \textbf{Description:} This function build the object for all other functions in this class. The object consists of a date and a value.
 \end{itemize}
