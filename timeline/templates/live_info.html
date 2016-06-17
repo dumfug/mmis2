@@ -17,8 +17,12 @@
         <div id='live-time-plot-canvas' class="plot-canvas"></div>
         <div id='window_params'>
 
+          <div id='button_start_stop_live'>
+            <button type="button" id="btn_start_stop_time_series" class="btn btn-default">pause</button>
+          </div>
+
           <div id='first_param' class="param">
-          <p>max size</p>
+          <p>maximum samples</p>
             <div class="input-group">
               <span class="input-group-addon">
                 <input type="checkbox" id="max_size_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
@@ -28,20 +32,17 @@
           </div>
 
           <div id='second_param' class="param">
-          <p>time delta (in seconds)</p>
+          <p>time window</p>
             <div class="input-group">
               <span class="input-group-addon">
                 <input type="checkbox" id="time_delta_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
               </span>
-              <input type="text" id="time_delta_text" class="form-control" aria-label="..." onkeypress="return isNumber(event)">
+              <input type="text" id="time_delta_text" class="form-control" aria-label="..." onkeypress="return isNumber(event)" placeholder="in seconds">
             </div><!-- /input-group -->
           </div>
           <div id='live-plot-buttons'>
             <div id='button_update_live'>
-              <button type="button" id="btn_update_time_series" class="btn btn-default">Update</button>
-            </div>
-            <div id='button_start_stop_live'>
-              <button type="button" id="btn_start_stop_time_series" class="btn btn-default">Stop</button>
+              <button type="button" id="btn_update_time_series" class="btn btn-default">refresh</button>
             </div>
           </div>
         </div>
@@ -107,12 +108,12 @@
 
   $('#btn_start_stop_time_series').click(function(event) {
     var button_text = document.getElementById('btn_start_stop_time_series').firstChild;
-    if(button_text.data == "Stop") {
+    if(button_text.data == "pause") {
       stopLiveUpdate();
-      button_text.data = "Start";
-    } else if (button_text.data == "Start") {
+      button_text.data = "resume";
+    } else if (button_text.data == "resume") {
       startLiveUpdate('{{ data_set.id }}');
-      button_text.data = "Stop";
+      button_text.data = "pause";
     }
   });
 

@@ -11,6 +11,14 @@ body {
   float: left;
 }
 
+.data-sets {
+  padding-top: 5px;
+}
+
+.data-sets h1{
+  padding-bottom: 5px;
+}
+
 #window_params {
   width: 20%;
   float: left;
@@ -23,6 +31,10 @@ body {
 #footer {
   text-align: center;
   padding-top: 50px;
+}
+
+#information h2 {
+    padding-bottom: 5px;
 }
 
 .param {
@@ -43,22 +55,22 @@ body {
 }
 
 #button_update_time_series {
-  text-align: center;
+  text-align: right;
   padding-top: 20px;
 }
 
 #button_update_acf {
-  text-align: center;
+  text-align: right;
   padding-top: 20px;
 }
 
 #live-plot-buttons {
   padding-top: 20px;
-  text-align: center;
+  text-align: right;
 }
 
-#live-plot-buttons #button_start_stop_live {
-  padding-top: 20px;
+#button_start_stop_live button {
+  width: 100%;
 }
 
 #footer p {
