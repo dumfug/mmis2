@@ -1,6 +1,5 @@
 {% extends "layout.html" %} {% block body %}
 <div class="container">
-
   <div>
     <h1> {{data_set.name}} </h1>
   </div>
@@ -10,7 +9,7 @@
       <li class="list-group-item"><b>Description:</b> {{data_set.description}} </li>
     </ul>
   </div>
-  <div id='eval_plot'>
+  <div id='eval_plot' class='plot'>
     <h2>Evaluation Plot</h2>
 
     <div class='plot_window'>
