@@ -22,7 +22,7 @@
       <div id='time-plot-canvas' class="plot-canvas"></div>
       <div id='window_params'>
 
-        <div id='first_param'>
+        <div id='first_param' class="param">
         <p>running mean</p>
           <div class="input-group">
             <span class="input-group-addon">
@@ -32,7 +32,7 @@
           </div><!-- /input-group -->
         </div>
 
-        <div id='second_param'>
+        <div id='second_param' class="param">
         <p>running std.</p>
           <div class="input-group">
             <span class="input-group-addon">
@@ -42,7 +42,7 @@
           </div><!-- /input-group -->
         </div>
 
-        <div id='third_param'>
+        <div id='third_param' class="param">
         <p>start date</p>
         <div class="input-group">
           <span class="input-group-addon">
@@ -52,7 +52,7 @@
         </div><!-- /input-group -->
         </div>
 
-        <div id='forth_param'>
+        <div id='forth_param' class="param">
         <p>end date</p>
           <div class="input-group">
             <span class="input-group-addon">
@@ -61,7 +61,9 @@
             <input type='text' id="end_date" class="form-control" />
           </div><!-- /input-group -->
         </div>
+        <div id='button_update_time_series'>
         <button type="button" id="btn_update_time_series" class="btn btn-default">Update</button>
+      </div>
       </div>
     </div>
   </div> <!-- time_series_plot -->
@@ -75,7 +77,7 @@
       <div id='acf-plot-canvas' class="plot-canvas"></div>
       <div id='window_params'>
 
-        <div id='first_param'>
+        <div id='first_param' class="param">
         <p>max lag</p>
           <div class="input-group">
             <span class="input-group-addon">
@@ -85,7 +87,9 @@
           </div>
           <label class="checkbox-inline"><input type="checkbox" id="scale_checkbox" value="">scale</label>
         </div>
-        <button type="button" id="btn_update_acf" class="btn btn-default">Update</button>
+        <div id='button_update_acf'>
+          <button type="button" id="btn_update_acf" class="btn btn-default">Update</button>
+        </div>
       </div>
     </div>
 

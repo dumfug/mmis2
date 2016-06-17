@@ -81,7 +81,7 @@ function live_plot(target_id, params) {
         viz.transition_on_update = false;
         live_viz = viz;
         MG.data_graphic(viz);
-        live_params = {'max_size': -10, 'time_delta': 30 /* seconds */}
+        live_params = {'max_size': -10, 'time_delta': -30 /* seconds */}
         activateLiveUpdate(route, live_viz, 1000);
     }).fail(function() {
         show_empty_plot(target_id, 'sorry, an error occurred');
@@ -116,7 +116,7 @@ function activateLiveUpdate(route, viz, interval) {
             }
             viz['data'][0].push.apply(viz['data'][0], new_data);
             MG.data_graphic(viz);
-            console.log(live_params);
+            //console.log(live_params);
         });
     }, interval);
 };

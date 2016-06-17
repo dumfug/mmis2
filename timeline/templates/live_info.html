@@ -17,7 +17,7 @@
         <div id='live-time-plot-canvas' class="plot-canvas"></div>
         <div id='window_params'>
 
-          <div id='first_param'>
+          <div id='first_param' class="param">
           <p>max size</p>
             <div class="input-group">
               <span class="input-group-addon">
@@ -27,8 +27,8 @@
             </div><!-- /input-group -->
           </div>
 
-          <div id='second_param'>
-          <p>time delta</p>
+          <div id='second_param' class="param">
+          <p>time delta (in seconds)</p>
             <div class="input-group">
               <span class="input-group-addon">
                 <input type="checkbox" id="time_delta_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
@@ -36,9 +36,14 @@
               <input type="text" id="time_delta_text" class="form-control" aria-label="..." onkeypress="return isNumber(event)">
             </div><!-- /input-group -->
           </div>
-
-          <button type="button" id="btn_update_time_series" class="btn btn-default">Update</button>
-          <button type="button" id="btn_start_stop_time_series" class="btn btn-default">Stop</button>
+          <div id='live-plot-buttons'>
+            <div id='button_update_live'>
+              <button type="button" id="btn_update_time_series" class="btn btn-default">Update</button>
+            </div>
+            <div id='button_start_stop_live'>
+              <button type="button" id="btn_start_stop_time_series" class="btn btn-default">Stop</button>
+            </div>
+          </div>
         </div>
       </div>
       </div> <!-- live_time_series_plot -->
@@ -77,7 +82,7 @@
           params['time_delta'] = parseInt(time_delta_text);
         }
       } else {
-        params['time_delta'] = 30;
+        params['time_delta'] = -30;
       }
       $('#time_delta_text').prop("disabled", !element.checked);
     }

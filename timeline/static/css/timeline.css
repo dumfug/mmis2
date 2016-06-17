@@ -22,5 +22,46 @@ body {
 
 #footer {
   text-align: center;
-  padding-top: 50px
+  padding-top: 50px;
+}
+
+.param {
+  padding-top: 15px;
+}
+
+.param .input-group {
+  margin-top:-10px;
+}
+
+.param .checkbox-inline {
+  padding-top: 15px;
+  padding-left: 34px;
+}
+
+#acf_plot #window_params {
+  padding-left: 20px;
+}
+
+#button_update_time_series {
+  text-align: center;
+  padding-top: 20px;
+}
+
+#button_update_acf {
+  text-align: center;
+  padding-top: 20px;
+}
+
+#live-plot-buttons {
+  padding-top: 20px;
+  text-align: center;
+}
+
+#live-plot-buttons #button_start_stop_live {
+  padding-top: 20px;
+}
+
+#footer p {
+  font-size: 12px;
+  color: #757575;
 }
