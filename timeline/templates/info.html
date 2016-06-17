@@ -124,15 +124,11 @@
   };
 
   $('#btn_update_time_series').click( function(event) {
-    show_empty_plot('#time-plot-canvas', 'loading');
-
     var start_date = $("#start_date").data("DateTimePicker").date();
     var end_date = $("#end_date").data("DateTimePicker").date();
 
     var params = {
-      'id': '{{ data_set.id }}',
-      'target': '#time-plot-canvas',
-      'height': 500
+      'id': '{{ data_set.id }}'
     };
 
     var mean_text = document.getElementById('mean_text').value;
@@ -153,14 +149,12 @@
       params['end_date'] = date_to_unix_time_stamp(end_date.toDate());
     }
 
-    time_plot({'data': params});
+    time_plot('#time-plot-canvas', params);
   });
 
   $('#btn_update_acf').click( function(event) {
     var params = {
       'id': '{{ data_set.id }}',
-      'target': '#acf-plot-canvas',
-      'height': 500,
       'max_lag': 200
     };
 
@@ -170,8 +164,7 @@
     }
     params['scale'] = document.getElementById('scale_checkbox').checked;
 
-    show_empty_plot('#acf-plot-canvas', 'loading');
-    acf_plot({'data': params});
+    acf_plot('#acf-plot-canvas', params);
   });
 
   $('#mean_text').prop("disabled", true);
@@ -198,21 +191,15 @@
   $("#end_date").data("DateTimePicker").date(new Date('{{data_set.end_date}}'));
 
   var params_time_plot = {
-    'id': '{{ data_set.id }}',
-    'target': '#time-plot-canvas',
-    'height': 500
+    'id': '{{ data_set.id }}'
   };
 
   var params_acf_plot = {
     'id': '{{ data_set.id }}',
-    'target': '#acf-plot-canvas',
-    'height': 500,
     'max_lag': 200
   };
 
-    show_empty_plot('#time-plot-canvas', 'loading');
-    time_plot({'data': params_time_plot});
-    show_empty_plot('#acf-plot-canvas', 'loading');
-    acf_plot({'data': params_acf_plot});
+  time_plot('#time-plot-canvas', params_time_plot);
+  acf_plot('#acf-plot-canvas', params_acf_plot);
 </script>
 {% endblock %}

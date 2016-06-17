@@ -4,7 +4,98 @@
   <div>
     <h1> {{data_set.name}} </h1>
   </div>
+  <div id='information'>
+    <h2>Information</h2>
+    <ul class="list-group">
+      <li class="list-group-item"><b>Description:</b> {{data_set.description}} </li>
+      <li class="list-group-item"><b>Period:</b> {{data_set.period}} </li>
+    </ul>
+    </div>
 
+    <div id='live_time_series_plot'>
+      <h2>Live Time Series Plot</h2>
+      <div class='plot_window'>
+        <div id='live-time-plot-canvas' class="plot-canvas"></div>
+        <div id='window_params'>
 
-<!-- /.container -->
+          <div id='first_param'>
+          <p>max size</p>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="checkbox" id="max_size_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
+              </span>
+              <input type="text" id="max_size_text" class="form-control" aria-label="..." onkeypress="return isNumber(event)">
+            </div><!-- /input-group -->
+          </div>
+
+          <div id='second_param'>
+          <p>time delta</p>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="checkbox" id="time_delta_checkbox" onclick="toggleCheckbox(this)" aria-label="...">
+              </span>
+              <input type="text" id="time_delta_text" class="form-control" aria-label="..." onkeypress="return isNumber(event)">
+            </div><!-- /input-group -->
+          </div>
+
+          <button type="button" id="btn_update_time_series" class="btn btn-default">Update</button>
+          <button type="button" id="btn_start_stop_time_series" class="btn btn-default">Stop</button>
+        </div>
+      </div>
+      </div> <!-- live_time_series_plot -->
+      <div id='clear'></div>
+
+</div><!-- /.container -->
+
+<script type="text/javascript">
+  function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  };
+
+  function toggleCheckbox(element) {
+    if(element.id === "max_size_checkbox") {
+      $('#max_size_text').prop("disabled", !element.checked);
+    } else if (element.id === "time_delta_checkbox") {
+      $('#time_delta_text').prop("disabled", !element.checked);
+    }
+  };
+
+  $('#btn_update_time_series').click(function(event) {
+    var params = {};
+
+    var max_size_text = document.getElementById('max_size_text').value;
+    if(document.getElementById('max_size_checkbox').checked && max_size_text.length !== 0 && (parseInt(max_size_text) > 1)) {
+      params['max_size'] = max_size_text;
+    }
+
+    var time_delta_text = document.getElementById('time_delta_text').value;
+    if(document.getElementById('time_delta_checkbox').checked && time_delta_text.length !== 0 && (parseInt(time_delta_text) > 2)) {
+      params['time_delta'] = time_delta_text;
+    }
+
+    updateLiveUpdate(params);
+  });
+
+  $('#btn_start_stop_time_series').click(function(event) {
+    var button_text = document.getElementById('btn_start_stop_time_series').firstChild;
+    if(button_text.data == "Stop") {
+      stopLiveUpdate();
+      button_text.data = "Start";
+    } else if (button_text.data == "Start") {
+      startLiveUpdate('{{ data_set.id }}');
+      button_text.data = "Stop";
+    }
+  });
+
+  $('#max_size_text').prop("disabled", true);
+  $('#time_delta_text').prop("disabled", true);
+
+  live_plot('#live-time-plot-canvas', { 'id': '{{ data_set.id }}' });
+
+</script>
 {% endblock %}
